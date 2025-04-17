@@ -17,14 +17,14 @@ export class RegisterComponent
     constructor(private fb: FormBuilder) 
     {
       this.registerForm = this.fb.group({
-  firstName: ['', Validators.required],
-  lastName: ['', Validators.required],
-  dob: ['', Validators.required],
-  gender: ['', Validators.required],
-  email: ['', [Validators.required, Validators.email]],
-  password: ['', [Validators.required, Validators.minLength(6)]],
-  confirmPassword: ['', Validators.required]
-}, { validator: this.passwordMatchValidator });
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dob: ['', Validators.required],
+      gender: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
 
       
     }

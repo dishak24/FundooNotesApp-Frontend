@@ -1,24 +1,22 @@
-.register-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    background: #f8f4f8;
-  }
+
+// .register-container {
+//     max-width: 950px;
+//     margin: 40px auto;
+//     padding: 20px;
+//     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+//     border-radius: 8px;
+//     background: white;
+//   }
   
-  h2 {
-    margin-bottom: 20px;
-  }
   
-  .name-fields, .password-fields {
-    display: flex;
-    gap: 10px;
-  }
+//   .name-fields, .password-fields {
+//     display: flex;
+//     gap: 10px;
+//   }
   
-  .full-width {
-    width: 100%;
-  }
+//   .full-width {
+//     width: 100%;
+//   }
   
   mat-form-field {
     flex: 1;
@@ -26,6 +24,194 @@
   
   .submit-btn {
     width: 100%;
-    margin-top: 16px;
+    //margin-top: 1px;
+  }
+
+//   .logo-left 
+//   {
+//     //flex: 1;
+//     text-align: left;
+//     margin-bottom: 32px;
+
+//   img {
+//     width: 75px;
+//     margin-bottom: 8px;
+//   }
+
+  h2 {
+    
+    font-weight: 500;
+    font-size: var(--wf-tfs, 2rem);
+  }
+// }
+
+//   .logo-left h2 {
+//     font-size: 2.5rem;
+//   margin-bottom: 10px;
+//   }
+
+  .form-right {
+    display: flex;
+    //flex: 2;
+    flex-direction: column;
+    }  
+
+    mat-form-field {
+      width: 100%;
+      border-radius: 6px;
+      //margin-bottom: 24px;
+      margin-bottom: 4px !important; /* Reduce spacing */
+    }
+  
+
+.register-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0px;
+}
+
+/* Left side styling */
+.logo-left {
+  flex: 1 1 300px;
+  padding: 10px;
+}
+
+/* Right side styling */
+.form-right {
+  flex: 2 1 900px;
+  padding: 10px;
+}
+
+/* Make form fields inline where needed */
+.name-fields,
+.password-fields {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Full-width for other fields */
+.full-width {
+  width: 100%;
+}
+
+/* Responsive behavior */
+@media (max-width: 700px) {
+  .register-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .name-fields,
+  .password-fields {
+    flex-direction: column;
+  }
+}
+
+.logo-left h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.logo-left {
+  margin-bottom: 10px; /* Reduce space below logo+heading */
+}
+
+.register-container {
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 20px;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: white;
+
+  display: flex;           /* Use flex to align left and right parts */
+  gap: 10px;               /* Space between logo and form */
+  align-items: flex-start; /* Align top edges */
+}
+
+/* Left side: Logo + heading */
+.logo-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0; /* Remove extra bottom space */
+}
+
+.logo-left img {
+  width: 40px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.logo-left h2 {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 24px;
+}
+
+/* Form adjustments */
+.form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Reduce space between fields */
+}
+
+.name-fields,
+.password-fields {
+  display: flex;
+  gap: 10px;
+}
+
+/* Full-width for fields */
+.full-width {
+  width: 100%;
+}
+
+/* Optional: responsive tweak */
+@media (max-width: 768px) 
+{
+  .register-container 
+  {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .name-fields,
+  .password-fields {
+    flex-direction: column;
+  }
+
+  .logo-left {
+    align-items: center;
+    text-align: center;
   }
   
+}
+
+.right-section {
+  flex: 1; /* Allow the right section to take available space */
+  max-width: 1000px; /* increase this if needed */
+}
+
+.form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 40px; 
+}
+
+input
+{
+  flex: 1;
+  width: 100%;
+}
+
+.form-right {
+  flex: 1; // Uses the remaining space efficiently
+  padding-right: 20px; // Optional
+}
