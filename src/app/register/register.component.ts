@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component(
   {
@@ -14,19 +15,53 @@ export class RegisterComponent
     hidePassword = true;
     hideConfirm = true;
 
-    constructor(private fb: FormBuilder) 
-    {
-      this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      dob: ['', Validators.required],
-      gender: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator });
+    days: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
 
+    months = 
+      [
+          { value: 1, name: 'January' },
+          { value: 2, name: 'February' },
+          { value: 3, name: 'March' },
+          { value: 4, name: 'April' },
+          { value: 5, name: 'May' },
+          { value: 6, name: 'June' },
+          { value: 7, name: 'July' },
+          { value: 8, name: 'August' },
+          { value: 9, name: 'September' },
+          { value: 10, name: 'October' },
+          { value: 11, name: 'November' },
+          { value: 12, name: 'December' }
+      ];
+
+    years: number[] = [];
+
+    ngOnInit(): void 
+    {
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1900; i--) 
+      {
+        this.years.push(i);
+      }
       
+    }
+
+    constructor(private fb: FormBuilder, private router: Router) 
+    {
+      this.registerForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        //dob: ['', Validators.required],
+        day: ['', Validators.required],
+        month: ['', Validators.required],
+        year: ['', Validators.required],
+        gender: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required]
+      }, 
+      { validator: this.passwordMatchValidator });
+    
     }
 
     passwordMatchValidator(form: FormGroup) {
@@ -43,4 +78,34 @@ export class RegisterComponent
         console.log('Form submitted:', this.registerForm.value);
       }
     }
+
+    //constructor(private router: Router) {}
+
+    onCreateAccount() 
+    {
+      if (this.registerForm.valid)
+      {
+        const formData = this.registerForm.value;
+        const dob = `${formData.day}-${formData.month}-${formData.year}`;
+
+        const userData = {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          dob: dob,
+          gender : formData.gender,
+          email: formData.email,
+          password: formData.password
+
+        };
+
+        localStorage.setItem('userData', JSON.stringify(userData));
+        console.log('User data saved to local storage:', userData);
+      }
+      
+      // Navigate to the login page
+      this.router.navigate(['/login']);
+    }
+
+    
+
 }

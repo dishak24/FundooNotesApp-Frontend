@@ -14,6 +14,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatCardModule } from '@angular/material/card';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import { MatSelectModule } from '@angular/material/select';
+
 
 
 @NgModule({
@@ -31,11 +36,19 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     MatIconModule, 
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+
+    MatDatepickerModule,
+    MatNativeDateModule, //without this line, datepicker will not work
+
+    MatSelectModule //for dropdown(Gender)
+
+    
     
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 
 export class AppModule { }
+
