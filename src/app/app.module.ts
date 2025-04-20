@@ -22,7 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 //for api call
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-//import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -34,7 +34,7 @@ import { MatListModule } from '@angular/material/list';
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    //DashboardComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
