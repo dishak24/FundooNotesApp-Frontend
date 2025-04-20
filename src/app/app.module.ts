@@ -14,15 +14,27 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatCardModule } from '@angular/material/card';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
+import { MatSelectModule } from '@angular/material/select';
 
+//for api call
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -33,10 +45,25 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     MatIconModule, 
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    //without this line, datepicker will not work
+    MatNativeDateModule, 
+    //for dropdown(Gender)
+    MatSelectModule, 
+    //for api call
+    HttpClientModule,
+    FormsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
+
+    
     
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
+

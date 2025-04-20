@@ -1,31 +1,103 @@
 .register-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    background: #f8f4f8;
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  align-items: center;
+}
+
+.register-flex {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.logo-left {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.logo-left img {
+  width: 50px;
+  margin-bottom: 30px;
+}
+
+.logo-left h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.form-right {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.name-fields,
+.password-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+mat-form-field {
+  flex: 1;
+  width: 100%;
+  margin-bottom: 4px !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.submit-btn {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .register-flex {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  h2 {
-    margin-bottom: 20px;
+
+  .name-fields,
+  .password-fields {
+    flex-direction: column;
   }
-  
-  .name-fields, .password-fields {
-    display: flex;
-    gap: 10px;
+
+  .form-right {
+    padding: 0;
   }
-  
-  .full-width {
-    width: 100%;
+
+  .logo-left {
+    align-items: center;
+    text-align: center;
   }
-  
-  mat-form-field {
-    flex: 1;
-  }
-  
-  .submit-btn {
-    width: 100%;
-    margin-top: 16px;
-  }
-  
+}
+
+.register-page {
+  background-color: #f9fbfc; //soft gray 
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dob-fields {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
