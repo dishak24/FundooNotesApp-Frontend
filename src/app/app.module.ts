@@ -19,13 +19,22 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { MatSelectModule } from '@angular/material/select';
 
+//for api call
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+//import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    //DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -37,11 +46,17 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule, 
     ReactiveFormsModule,
     MatCardModule,
-
     MatDatepickerModule,
-    MatNativeDateModule, //without this line, datepicker will not work
-
-    MatSelectModule //for dropdown(Gender)
+    //without this line, datepicker will not work
+    MatNativeDateModule, 
+    //for dropdown(Gender)
+    MatSelectModule, 
+    //for api call
+    HttpClientModule,
+    FormsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
 
     
     

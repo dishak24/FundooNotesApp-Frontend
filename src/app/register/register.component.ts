@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user/user.service';
 
 @Component(
   {
@@ -45,7 +46,9 @@ export class RegisterComponent
       
     }
 
-    constructor(private fb: FormBuilder, private router: Router) 
+    constructor(private fb: FormBuilder, 
+                private router: Router, 
+                private user: UserService) 
     {
       this.registerForm = this.fb.group(
       {
@@ -100,10 +103,42 @@ export class RegisterComponent
 
         localStorage.setItem('userData', JSON.stringify(userData));
         console.log('User data saved to local storage:', userData);
+
+        console.log("this.registerForm.value == ",this.registerForm.value);
+
+
+        const payload = {
+          firstName: this.registerForm.value.firstName,
+          lastName: this.registerForm.value.lastName,
+          //dob: this.registerForm.value.year + '-' + this.registerForm.value.month + '-' + this.registerForm.value.day,
+          dob: new Date(this.registerForm.value.year, this.registerForm.value.month - 1, this.registerForm.value.day).toISOString(),
+          gender: this.registerForm.value.gender,
+          email: this.registerForm.value.email,
+          password: this.registerForm.value.password
+        }
+
+        //for checking payload values:
+        console.log('Payload:', payload);
+
+        this.user.register(payload).subscribe(
+          {
+          next: (result) => 
+            {
+            console.log('User registered successfully:', result);
+            alert('User Registration  successfully !');
+            // Navigate to the login page
+            this.router.navigate(['login']);
+           },
+          error: (err) => 
+            {
+            console.error('Registering user Failed:', err);
+            alert('Registering user Failed !!!!!');
+            }
+        })
       }
       
       // Navigate to the login page
-      this.router.navigate(['/login']);
+      //this.router.navigate(['/login']);
     }
 
     
