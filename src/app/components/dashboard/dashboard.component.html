@@ -1,0 +1,155 @@
+<div>
+  <mat-toolbar class="header">
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <img src="assets/Images/keepLogo.png" alt="Fundoo Logo"  width="40">
+    <span class="app-title">FunDoo</span>
+  
+    <span class="spacer"></span>
+  
+    <div class="keep-search">
+      <button mat-icon-button class="search-icon">
+        <mat-icon>search</mat-icon>
+      </button>
+      <input matInput placeholder="Search" />
+    </div>
+    
+    <div class ="header-icons-one">
+      <button mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>view_agenda</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+    
+    <div class ="header-icons-two">
+      <button mat-icon-button>
+        <mat-icon>apps</mat-icon>
+      </button>
+    
+      <!-- Account Circle Button -->
+      <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    
+    </div>
+  </mat-toolbar>
+    
+  
+  <!-- Account Menu Dropdown -->
+  <mat-menu #accountMenu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon> <!-- Logout Icon -->
+      Logout
+    </button>
+  </mat-menu>
+  
+  <div class="toolbar-line"></div>
+</div>
+
+
+
+<!-- Sidenav-->
+<!-- <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav [mode]="'side'" [opened]="true" [class.collapsed]="!isExpanded" class="sidenav">
+    <mat-nav-list>
+      <mat-list-item>
+        <mat-icon>lightbulb</mat-icon>
+        <span *ngIf="isExpanded">Notes</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>notifications</mat-icon>
+        <span *ngIf="isExpanded">Reminders</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>edit</mat-icon>
+        <span *ngIf="isExpanded">Edit labels</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>archive</mat-icon>
+        <span *ngIf="isExpanded">Archive</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>delete</mat-icon>
+        <span *ngIf="isExpanded">Trash</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+</mat-sidenav-container> -->
+
+<!-- Sidenav-->
+ <div>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav [mode]="'side'" [opened]="true" [class.collapsed]="!isExpanded" class="sidenav">
+      <mat-nav-list>
+        <mat-list-item 
+          [ngClass]="{ 'active': activeItem === 'Notes' }"
+          (click)="setActive('Notes')">
+          <mat-icon>lightbulb</mat-icon>
+          <span *ngIf="isExpanded">Notes</span>
+        </mat-list-item>
+  
+        <mat-list-item 
+          [ngClass]="{ 'active': activeItem === 'Reminders' }"
+          (click)="setActive('Reminders')">
+          <mat-icon>notifications</mat-icon>
+          <span *ngIf="isExpanded">Reminders</span>
+        </mat-list-item>
+  
+        <mat-list-item 
+          [ngClass]="{ 'active': activeItem === 'Edit labels' }"
+          (click)="setActive('Edit labels')">
+          <mat-icon>edit</mat-icon>
+          <span *ngIf="isExpanded">Edit labels</span>
+        </mat-list-item>
+  
+        <mat-list-item 
+          [ngClass]="{ 'active': activeItem === 'Archive' }"
+          (click)="setActive('Archive')">
+          <mat-icon>archive</mat-icon>
+          <span *ngIf="isExpanded">Archive</span>
+        </mat-list-item>
+  
+        <mat-list-item 
+          [ngClass]="{ 'active': activeItem === 'Trash' }"
+          (click)="setActive('Trash')">
+          <mat-icon>delete</mat-icon>
+          <span *ngIf="isExpanded">Trash</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+ </div>
+
+
+
+  <!-- <div class="take-note-container" [ngStyle]="{ 'background-color': selectedColor }">
+    <input type="text" placeholder="Title" [(ngModel)]="noteTitle">
+    <textarea rows="2" placeholder="Take a note..." [(ngModel)]="noteContent"></textarea>
+    <div class="note-footer">
+      <div class="color-palette">
+        <button *ngFor="let color of colors" class="color-btn"
+                [ngStyle]="{ 'background-color': color }"
+                (click)="changeColor(color)">
+        </button>
+      </div>
+      <button (click)="addNote()" class="add-btn">Add</button>
+    </div>
+  </div>
+
+  Display notes here -->
+  <!-- <div class="notes-grid">
+    <div *ngFor="let note of notes" class="note" [ngStyle]="{ 'background-color': note.color }">
+      <h4>{{ note.title }}</h4>
+      <p>{{ note.content }}</p>
+    </div> -->
+  <!-- </div> --> 
+<!-- </div> --> 
+
+

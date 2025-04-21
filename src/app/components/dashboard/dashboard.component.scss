@@ -1,0 +1,234 @@
+/* === Toolbar === */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 0rem;
+  height: 64px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+
+  .app-title {
+    margin-left: 1rem;
+    font-size: 20px;
+    font-weight: 500;
+    color: #5f6368;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .search-bar {
+    width: 720px;
+    margin-right: 2rem;
+    mat-icon {
+      color: #5f6368;
+    }
+    input {
+      font-size: 16px;
+    }
+  }
+
+  mat-icon {
+    font-size: 24px;
+    color: #5f6368;
+    &:hover {
+      color: #202124;
+    }
+  }
+
+  button[mat-icon-button] {
+    margin-left: 8px;
+  }
+}
+
+/* === Sidenav Container === */
+.sidenav-container {
+  height: calc(100vh - 64px);
+  display: flex;
+}
+
+/* === Sidenav Styles === */
+.sidenav {
+  width: 240px;
+  background-color: white;
+  transition: width 0.3s ease;
+  
+  &.collapsed {
+    width: 70px;
+    mat-list-item {
+      justify-content: center;
+      mat-icon {
+        margin-right: 0;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+
+  mat-nav-list {
+    padding-top: 0.5rem;
+  }
+
+  mat-list-item {
+    padding: 12px 16px;
+    border-radius: 0 25px 25px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    mat-icon {
+      font-family: 'Material Icons Outlined';
+      font-size: 24px;
+      margin-right: 20px;
+      color: #5f6368;
+    }
+
+    span {
+      font-size: 16px;
+      color: #202124;
+    }
+
+    &.active {
+      background-color: #fef3c7;
+      mat-icon, span {
+        color: #000;
+      }
+    }
+  }
+}
+
+// /* === Hover Logic for Expanding Sidenav === */
+// .sidenav:hover {
+//   width: 240px;
+// }
+
+.sidenav .collapsed mat-list-item {
+  width: 70px;
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 100%;
+  }
+}
+
+/* === Search Bar === */
+.keep-search {
+  display: flex;
+  align-items: center;
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  padding: 0px 18px;
+  width: 1000px;
+  max-width: 100%;
+  box-shadow: none;
+  transition: box-shadow 0.2s ease;
+  margin: 0 3rem;
+  .search-icon {
+    font-size: 20px;
+    color: black;
+    margin-right: 12px;
+  }
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 16px;
+    color: #202124;
+  }
+  &:focus-within {
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+  }
+}
+@media (max-width: 768px) {
+  .keep-search {
+    width: 100%;
+    margin: 0 1rem;
+  }
+}
+
+/* === Header Icon Groups === */
+.header-icons-one {
+  margin-right: 7cqh;
+  margin-left: auto;
+}
+
+.header-icons-two {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
+.toolbar-line {
+  height: 1px;
+  background-color: #e0e0e0;
+  width: 100%;
+}
+
+/* Remove default right-side vertical line from sidenav */
+.sidenav {
+  width: 240px;
+  background-color: white;
+  transition: width 0.3s ease;
+  border-right: none;
+  box-shadow: none;
+}
+
+//note-container
+.display-note {
+  width: 240px;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+//Style for the Logout Button 
+
+.mat-icon-button {
+  background-color: transparent; // Ensure the button has no background 
+  padding: 8px; // Add some padding 
+  border-radius: 50%; // Round the button for a clean look 
+  transition: background-color 0.3s ease; //Smooth transition effect
+}
+
+.mat-icon-button:hover 
+{
+  background-color: rgba(223, 69, 69, 0.1);  
+}
+
+// Style for Account Menu Dropdown 
+.mat-menu-panel {
+  border-radius: 8px; 
+  box-shadow: 0 4px 12px rgba(223, 69, 69, 0.1); 
+}
+
+/* Style for Menu Item */
+.mat-menu-item {
+  padding: 10px 16px; 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  transition: background-color 0.2s ease; 
+}
+
+//Hover Effect for Menu Item
+.mat-menu-item:hover {
+  background-color: rgba(223, 69, 69, 0.1); //Soft background color on hover
+}
+
+/* Icon Style */
+.mat-menu-item mat-icon {
+  font-size: 30px; 
+}
+
+
+.mat-menu-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(223, 69, 69, 0.1); /* Focus ring for better accessibility */
+}
+

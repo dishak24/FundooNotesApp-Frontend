@@ -1,0 +1,14 @@
+<div class="note-card" (click)="toggleForm()">
+    <div *ngIf="isExpanded">
+      <input [(ngModel)]="title" placeholder="Title" />
+      <textarea [(ngModel)]="content" placeholder="Take a note..."></textarea>
+      <div class="actions">
+        <!-- Icons can be added here -->
+        <button (click)="closeNote()">Close</button>
+      </div>
+    </div>
+    <div *ngIf="!isExpanded">
+      <p>Take a note...</p>
+    </div>
+  </div>
+  

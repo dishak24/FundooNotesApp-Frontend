@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,11 +22,17 @@ import { MatSelectModule } from '@angular/material/select';
 //for api call
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+
+import { MatMenuModule } from '@angular/material/menu';
+import { AddNoteComponent } from './components/add-note/add-note.component';
 
 
 @NgModule({
@@ -34,7 +40,8 @@ import { MatListModule } from '@angular/material/list';
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    AddNoteComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +63,8 @@ import { MatListModule } from '@angular/material/list';
     FormsModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule
 
     
     
@@ -65,5 +73,11 @@ import { MatListModule } from '@angular/material/list';
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+  
+
+constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
+  matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
+}
+ }
 
