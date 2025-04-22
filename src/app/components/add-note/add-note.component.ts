@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from '../../services/user/user.service';
 import { HostListener } from '@angular/core';
 import { EventEmitter, Output } from '@angular/core';
+import { NoteService } from 'src/app/services/note/note.service';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class AddNoteComponent implements OnInit, OnDestroy {
   @Output() noteAdded = new EventEmitter<any>();
 
   constructor(
-    private noteService: UserService,
+    private noteService: NoteService,
     private snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {}
@@ -59,11 +59,12 @@ export class AddNoteComponent implements OnInit, OnDestroy {
   // Detect clicks outside the component and close the note
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
-    const clickedInside = this.noteCard?.nativeElement.contains(event.target);
-    if (!clickedInside && this.isExpanded) {
-      this.closeNote();
-    }
+  const clickedInside = this.noteCard?.nativeElement.contains(event.target);
+  if (!clickedInside && this.isExpanded) {
+    this.resetNote(); // Collapse without saving
   }
+}
+
 
   // Toggle color picker visibility
   toggleColorPicker(event: MouseEvent) {
@@ -80,40 +81,48 @@ export class AddNoteComponent implements OnInit, OnDestroy {
   // Close the note
   closeNote() {
     this.isColorPickerVisible = false;
-
+  
     const title = this.noteForm.value.title.trim();
     const content = this.noteForm.value.content.trim();
-
-    if (title || content) 
-    {
+  
+    if (title || content) {
       const payload = {
-        title: this.note.title,
-        content: this.note.content,
-        color: this.note.color,}
+        title: title,
+        content: content,
+        color: this.note.color,
+        //isPinned: this.note.isPinned
+      };
 
-      //  = title;
-      //  = content;
-      // this.noteAdded.emit(this.note);
-
+      console.log('Payload:', payload);
+  
       this.noteService.addNote(payload).subscribe({
-        next: (response) => 
-        {
-          this.snackBar.open('Note saved successfully!', 'Close', 
-            { duration: 3000, panelClass: ['success-snackbar'] });
+        next: (response: any) => {
+          this.snackBar.open('Note saved successfully!', 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          });
+          this.noteAdded.emit(response); // Emit if parent wants to refresh list
+          this.resetNote(); // Reset after successful add
         },
-        error: (err) => 
-        {
-          this.snackBar.open('Error in saving note !!!!', 'Close', 
-            { duration: 3000, panelClass: ['error-snackbar'] });
+        error: () => {
+          this.snackBar.open('Error in saving note!', 'Close', {
+            duration: 3000,
+            panelClass: ['error-snackbar']
+          });
         }
       });
+    } else {
+      this.resetNote(); // Even if no content, just reset form
     }
-
-    // Reset state
+  }
+  
+  resetNote() {
     this.note = { title: '', content: '', color: '#ffffff', isPinned: false };
     this.noteForm.reset();
     this.isExpanded = false;
+    this.isColorPickerVisible = false;
   }
+  
 
   // Pin or unpin the note
   togglePin(event: MouseEvent) {

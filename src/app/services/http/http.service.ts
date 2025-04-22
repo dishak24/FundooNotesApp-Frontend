@@ -38,10 +38,12 @@ export class HttpService {
     return this.http.post(this.BASE_URL + endpoint, payload, { headers });
   }
 
-  // addNoteApi(endpoint: string, payload: any, headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' }))
-  // {
-  //   return this.http.post(this.BASE_URL + endpoint, payload, { headers });
-  // }
+  //for post api with token
+  postApiToken(endpoint: string, payload: any, token: boolean = true, headers: any = {} )
+  {
+    return this.http.post(this.BASE_URL + endpoint, payload, token ? headers:{});
+  }  
+
 
   
 }
