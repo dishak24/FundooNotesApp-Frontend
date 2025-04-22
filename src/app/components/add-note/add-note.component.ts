@@ -84,17 +84,27 @@ export class AddNoteComponent implements OnInit, OnDestroy {
     const title = this.noteForm.value.title.trim();
     const content = this.noteForm.value.content.trim();
 
-    if (title || content) {
-      this.note.title = title;
-      this.note.content = content;
-      this.noteAdded.emit(this.note);
+    if (title || content) 
+    {
+      const payload = {
+        title: this.note.title,
+        content: this.note.content,
+        color: this.note.color,}
 
-      this.noteService.addNote(this.note).subscribe({
-        next: (response) => {
-          this.snackBar.open('Note saved successfully!', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
+      //  = title;
+      //  = content;
+      // this.noteAdded.emit(this.note);
+
+      this.noteService.addNote(payload).subscribe({
+        next: (response) => 
+        {
+          this.snackBar.open('Note saved successfully!', 'Close', 
+            { duration: 3000, panelClass: ['success-snackbar'] });
         },
-        error: (err) => {
-          this.snackBar.open('Error in saving note!', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        error: (err) => 
+        {
+          this.snackBar.open('Error in saving note !!!!', 'Close', 
+            { duration: 3000, panelClass: ['error-snackbar'] });
         }
       });
     }
