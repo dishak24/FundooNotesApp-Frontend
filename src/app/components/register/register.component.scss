@@ -100,4 +100,21 @@ mat-form-field {
   flex-wrap: wrap;
 }
 
+//snackbar styles
+
+/* Success Snackbar */
+::ng-deep .mat-snack-bar-container.success-snackbar 
+{
+  background-color: #4caf50 !important;  
+  color: white !important;  
+}
+
+/* Error Snackbar */
+::ng-deep .mat-snack-bar-container.error-snackbar 
+{
+  background-color: #f44336 !important;  
+  color: white !important;  
+}
+
+
 

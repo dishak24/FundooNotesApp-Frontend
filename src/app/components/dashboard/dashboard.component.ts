@@ -34,6 +34,10 @@ export class DashboardComponent
     this.activeItem = item;
   }
 
+
+  navigateToAddNote() {
+    this.router.navigate(['dashboard/add-note']);
+  }
   // Handle hover: expand or collapse sidenav based on mouse enter/leave
   // onHover(state: boolean) {
   //   this.hovering = state;
@@ -78,5 +82,14 @@ export class DashboardComponent
 //   }
 // }
 
+  // notes: any[] = [];
+
+  // onNoteAdded(note: any) 
+  // {
+  //   this.notes.unshift(note); // Add new note at the top
+  // }
+
+
+  
 
 }

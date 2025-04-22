@@ -1,14 +1,43 @@
-<div class="note-card" (click)="toggleForm()">
-    <div *ngIf="isExpanded">
-      <input [(ngModel)]="title" placeholder="Title" />
-      <textarea [(ngModel)]="content" placeholder="Take a note..."></textarea>
-      <div class="actions">
-        <!-- Icons can be added here -->
-        <button (click)="closeNote()">Close</button>
+<div class="note-card" 
+     [ngStyle]="{ 'background-color': note.color }" 
+     #noteCard 
+     [formGroup]="noteForm"
+     (click)="toggleForm($event)">
+
+  <!-- Expanded View -->
+  <ng-container *ngIf="isExpanded; else collapsedView">
+    <mat-icon class="pin-icon" (click)="togglePin($event)">
+      {{ note.isPinned ? 'push_pin' : 'push_pin' }}
+    </mat-icon>
+
+    <input formControlName="title" placeholder="Title" />
+    <textarea formControlName="content" placeholder="Take a note..."></textarea>
+
+    <div class="actions">
+      <button mat-icon-button (click)="toggleColorPicker($event)">
+        <mat-icon>palette</mat-icon>
+      </button>
+      <button mat-icon-button><mat-icon>notifications_none</mat-icon></button>
+      <button mat-icon-button><mat-icon>person_add</mat-icon></button>
+      <button mat-icon-button><mat-icon>image</mat-icon></button>
+      <button mat-icon-button><mat-icon>archive</mat-icon></button>
+      <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+
+      <button class="close-btn" (click)="closeNote(); $event.stopPropagation()">Close</button>
+    </div>
+
+    <!-- Color Picker -->
+    <div *ngIf="isColorPickerVisible" class="color-picker">
+      <div class="color-circle" *ngFor="let color of colors"
+           [ngStyle]="{ 'background-color': color }"
+           (click)="selectColor(color)">
       </div>
     </div>
-    <div *ngIf="!isExpanded">
-      <p>Take a note...</p>
-    </div>
-  </div>
-  
+  </ng-container>
+
+  <!-- Collapsed View -->
+  <ng-template #collapsedView>
+    <p class="placeholder">Take a note...</p>
+  </ng-template>
+
+</div>

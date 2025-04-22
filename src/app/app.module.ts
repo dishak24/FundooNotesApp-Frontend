@@ -34,6 +34,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddNoteComponent } from './components/add-note/add-note.component';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { AddNoteComponent } from './components/add-note/add-note.component';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSnackBarModule
 
     
     

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component(
   {
@@ -46,9 +47,11 @@ export class RegisterComponent
       
     }
 
-    constructor(private fb: FormBuilder, 
+    constructor(
+                private fb: FormBuilder, 
                 private router: Router, 
-                private user: UserService) 
+                private user: UserService,
+                private snackBar: MatSnackBar) 
     {
       this.registerForm = this.fb.group(
       {
@@ -82,64 +85,70 @@ export class RegisterComponent
       }
     }
 
-    //constructor(private router: Router) {}
-
     onCreateAccount() 
     {
-      if (this.registerForm.valid)
+      if (this.registerForm.valid) 
       {
         const formData = this.registerForm.value;
         const dob = `${formData.day}-${formData.month}-${formData.year}`;
-
-        const userData = {
+    
+        const userData = 
+        {
           firstName: formData.firstName,
           lastName: formData.lastName,
           dob: dob,
-          gender : formData.gender,
+          gender: formData.gender,
           email: formData.email,
           password: formData.password
-
         };
-
+    
         localStorage.setItem('userData', JSON.stringify(userData));
         console.log('User data saved to local storage:', userData);
-
-        console.log("this.registerForm.value == ",this.registerForm.value);
-
-
-        const payload = {
+    
+        const payload = 
+        {
           firstName: this.registerForm.value.firstName,
           lastName: this.registerForm.value.lastName,
-          //dob: this.registerForm.value.year + '-' + this.registerForm.value.month + '-' + this.registerForm.value.day,
           dob: new Date(this.registerForm.value.year, this.registerForm.value.month - 1, this.registerForm.value.day).toISOString(),
           gender: this.registerForm.value.gender,
           email: this.registerForm.value.email,
           password: this.registerForm.value.password
-        }
-
-        //for checking payload values:
+        };
+    
+        // Checking payload values
         console.log('Payload:', payload);
-
+    
         this.user.register(payload).subscribe(
-          {
+        {
           next: (result) => 
+          {
+            console.log('User registered successfully!', result);
+            
+            // Show success Snackbar
+            this.snackBar.open('Registration successful !', 'Close', 
             {
-            console.log('User registered successfully:', result);
-            alert('User Registration  successfully !');
+              duration: 3000,
+              panelClass: ['success-snackbar']
+            });
+    
             // Navigate to the login page
             this.router.navigate(['login']);
-           },
+          },
           error: (err) => 
+          {
+            console.error('Registering user Failed !!', err);
+            
+            // Show error Snackbar
+            this.snackBar.open('Registration failed !!!!!', 'Close', 
             {
-            console.error('Registering user Failed:', err);
-            alert('Registering user Failed !!!!!');
-            }
-        })
+              duration: 3000,
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
       }
-      
-      // Navigate to the login page
-      //this.router.navigate(['/login']);
     }
+    
 
     
 

@@ -1,53 +1,113 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user/user.service';
+import { HostListener } from '@angular/core';
 import { EventEmitter, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-add-note',
   templateUrl: './add-note.component.html',
   styleUrls: ['./add-note.component.scss']
 })
-export class AddNoteComponent {
+export class AddNoteComponent implements OnInit, OnDestroy {
 
-  // note = { title: '', content: '', color: '#ffffff' };
-  // isColorPickerVisible = false; // Flag to show/hide color picker
-
-  // @Output() noteAdded = new EventEmitter<{ title: string, content: string, color: string }>();
-
-  // colors: string[] = ['#ffffff', '#fce8e6', '#fff8e1', '#f0f4c3', '#e0f7fa', '#f3e5f5', '#e8f5e9', '#ede7f6', '#e1f5fe'];
-
-  // toggleColorPicker() {
-  //   this.isColorPickerVisible = !this.isColorPickerVisible; // Toggle visibility
-  // }
-
-  // selectColor(color: string) {
-  //   this.note.color = color; // Set selected color to the note
-  //   this.isColorPickerVisible = false; // Hide color picker after selecting
-  // }
-
-  // addNote() {
-  //   if (this.note.title || this.note.content) {
-  //     this.noteAdded.emit(this.note);
-  //     this.note = { title: '', content: '', color: '#ffffff' };
-  //   }
-  // }
-
-  title: string = '';
-  content: string = '';
   isExpanded: boolean = false;
+  isColorPickerVisible: boolean = false;
+  noteForm!: FormGroup;
 
+  note = {
+    title: '',
+    content: '',
+    color: '#ffffff',
+    isPinned: false
+  };
+
+  colors: string[] = [
+    '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
+    '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
+  ];
+
+  @ViewChild('noteCard', { static: true }) noteCard!: ElementRef;
   @Output() noteAdded = new EventEmitter<any>();
 
-  toggleForm() {
-    this.isExpanded = true;
+  constructor(
+    private noteService: UserService,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.noteForm = this.fb.group({
+      title: ['', [Validators.maxLength(100)]],
+      content: ['', [Validators.maxLength(500)]]
+    });
   }
 
-  closeNote() {
-    if (this.title || this.content) {
-      this.noteAdded.emit({ title: this.title, content: this.content });
+  ngOnDestroy(): void {
+    // Ensuring cleanup on destroy
+  }
+
+  // Open the form and listen for clicks outside
+  toggleForm(event?: MouseEvent) {
+    this.isExpanded = true;
+    event?.stopPropagation(); // Prevent event from propagating to the document
+
+  }
+
+  // Detect clicks outside the component and close the note
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const clickedInside = this.noteCard?.nativeElement.contains(event.target);
+    if (!clickedInside && this.isExpanded) {
+      this.closeNote();
     }
-    this.title = '';
-    this.content = '';
+  }
+
+  // Toggle color picker visibility
+  toggleColorPicker(event: MouseEvent) {
+    event.stopPropagation();  // Prevent click from propagating to document
+    this.isColorPickerVisible = !this.isColorPickerVisible;
+  }
+
+  // Select color for the note
+  selectColor(color: string) {
+    this.note.color = color;
+    this.isColorPickerVisible = false;
+  }
+
+  // Close the note
+  closeNote() {
+    this.isColorPickerVisible = false;
+
+    const title = this.noteForm.value.title.trim();
+    const content = this.noteForm.value.content.trim();
+
+    if (title || content) {
+      this.note.title = title;
+      this.note.content = content;
+      this.noteAdded.emit(this.note);
+
+      this.noteService.addNote(this.note).subscribe({
+        next: (response) => {
+          this.snackBar.open('Note saved successfully!', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
+        },
+        error: (err) => {
+          this.snackBar.open('Error in saving note!', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        }
+      });
+    }
+
+    // Reset state
+    this.note = { title: '', content: '', color: '#ffffff', isPinned: false };
+    this.noteForm.reset();
     this.isExpanded = false;
   }
 
+  // Pin or unpin the note
+  togglePin(event: MouseEvent) {
+    event.stopPropagation();  // Prevent click from propagating to document
+    this.note.isPinned = !this.note.isPinned;
+  }
 }

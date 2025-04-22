@@ -21,7 +21,10 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuardService],//property - true or false
-    children: []// after note container
+    children: [
+      { path: '', component: AddNoteComponent },
+      // Add more child routes as needed
+    ]// after note container
     //archive, remainder adding here-- component name , Componant 
     
   },
