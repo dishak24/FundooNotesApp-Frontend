@@ -3,30 +3,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-// interface LoginResponse {
-//   success: boolean;
-//   message: string;
-//   data: string; // JWT token
-// }
-
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-
-
 export class LoginComponent {
   login: FormGroup;
   hidePassword = true;
-  //constructor(private router: Router) {}
+
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private router: Router,
     private user: UserService,
-    private snackBar: MatSnackBar )  
-    {
+    private snackBar: MatSnackBar
+  ) {
     this.login = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -35,49 +27,45 @@ export class LoginComponent {
 
   onSubmit() {
     console.log("Login data:", this.login.value);
-  
+
     const payload = {
       email: this.login.value.email,
       password: this.login.value.password
     };
-  
-    // call a service to authenticate the user
+
     this.user.login(payload).subscribe({
-      next: (result: any) => 
-      {
+      next: (result: any) => {
         console.log('Login successful:', result);
-        
-        // Store token in local storage
-        const token = result.data; 
-        localStorage.setItem('Token', token);
-  
-        // Show success Snackbar
-        this.snackBar.open('Login successful !', 'Close', 
+
+        //Normalize token to ensure "Bearer " prefix
+        // Clean token and store it in localStorage
+        let token = result.data;
+        if (token.startsWith('Bearer ')) 
         {
+          token = token.replace('Bearer ', '');
+        }
+      // Store the token in localStorage
+        localStorage.setItem('Token', token);
+
+        this.snackBar.open('Login successful!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
-  
-        // Navigate to the dashboard or another route after successful login
+
         this.router.navigate(['/dashboard']);
       },
-      error: (error) => 
-      {
+      error: (error) => {
         console.error('Login failed:', error);
-        
-        // Show error Snackbar
-        this.snackBar.open('Login failed !!!!', 'Close', 
-        {
+
+        this.snackBar.open('Login failed!', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
       }
     });
   }
-  
 
-  onCreateAccount()
-  {
+  onCreateAccount() {
     console.log('Create Account');
     this.router.navigate(['/register']);
   }
