@@ -35,15 +35,20 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AddNoteComponent } from './components/add-note/add-note.component';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DisplayNoteComponent } from './components/display-note/display-note.component';
+import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
 
 
-@NgModule({
+@NgModule(
+  {
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
     DashboardComponent,
-    AddNoteComponent
+    AddNoteComponent,
+    DisplayNoteComponent,
+    AllDisplayNotesComponent
   ],
   imports: [
     BrowserModule,
@@ -76,11 +81,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   bootstrap: [AppComponent]
 })
 
-export class AppModule {
-  
-
-constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
-  matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
+export class AppModule 
+{
+  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) 
+  {
+    matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
+  }
 }
- }
 

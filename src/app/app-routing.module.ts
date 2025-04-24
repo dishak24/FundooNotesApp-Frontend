@@ -5,6 +5,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { AddNoteComponent } from './components/add-note/add-note.component';
+import { DisplayNoteComponent } from './components/display-note/display-note.component';
+import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
 
 const routes: Routes = [
   {
@@ -22,7 +24,8 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuardService],//property - true or false
     children: [
-      { path: '', component: AddNoteComponent },
+      // { path: '', component: AddNoteComponent },
+      { path: '', component: AllDisplayNotesComponent },
       // Add more child routes as needed
     ]// after note container
     //archive, remainder adding here-- component name , Componant 
@@ -32,6 +35,17 @@ const routes: Routes = [
     path: 'addNote',
     component: AddNoteComponent
   },
+
+  {
+    path: 'displayNote',
+    component: DisplayNoteComponent
+  },
+
+  {
+    path: 'allNotes',
+    component: AllDisplayNotesComponent
+  },
+
   {
     path: '',
     redirectTo: '/login',

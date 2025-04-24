@@ -18,14 +18,16 @@ export class LoginComponent {
     private router: Router,
     private user: UserService,
     private snackBar: MatSnackBar
-  ) {
+  ) 
+  {
     this.login = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
-  onSubmit() {
+  onSubmit() 
+  {
     console.log("Login data:", this.login.value);
 
     const payload = {
@@ -34,7 +36,8 @@ export class LoginComponent {
     };
 
     this.user.login(payload).subscribe({
-      next: (result: any) => {
+      next: (result: any) => 
+      {
         console.log('Login successful:', result);
 
         //Normalize token to ensure "Bearer " prefix
@@ -47,7 +50,8 @@ export class LoginComponent {
       // Store the token in localStorage
         localStorage.setItem('Token', token);
 
-        this.snackBar.open('Login successful!', 'Close', {
+        this.snackBar.open('Login successful!', 'Close', 
+        {
           duration: 3000,
           panelClass: ['success-snackbar']
         });

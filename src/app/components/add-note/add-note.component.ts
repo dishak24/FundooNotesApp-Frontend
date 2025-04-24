@@ -38,15 +38,17 @@ export class AddNoteComponent implements OnInit, OnDestroy {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
-    this.noteForm = this.fb.group({
+  ngOnInit(): void 
+  {
+    this.noteForm = this.fb.group(
+    {
       title: ['', [Validators.maxLength(100)]],
       content: ['', [Validators.maxLength(500)]]
     });
   }
 
   ngOnDestroy(): void {
-    // Ensuring cleanup on destroy
+    // Cleanup if needed
   }
 
   // Open the form and listen for clicks outside
@@ -85,11 +87,12 @@ export class AddNoteComponent implements OnInit, OnDestroy {
     const title = this.noteForm.value.title.trim();
     const content = this.noteForm.value.content.trim();
   
-    if (title || content) {
+    if (title || content) 
+    {
       const payload = {
         title: title,
-        content: content,
-        color: this.note.color,
+        description: content,
+        colour: this.note.color,
         //isPinned: this.note.isPinned
       };
 

@@ -17,30 +17,38 @@ export class NoteService
 
   }
 
-  // addNote(payload: any)
-  // {
-  //   let headers = {
-  //     headers: new HttpHeaders(
-  //     {
-  //       'Authorization': `Bearer ${this.token}`,
-  //       'Content-Type': 'application/json'
-  //     })
-  //   };
-  //   console.log('Headers:', headers);
+  addNote(payload: any)
+  {
+    let httpOption = {
+      headers: new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log('Headers:', httpOption);
     
-  //   return this.http.postApiToken('/addNote', payload, true, headers);
-  // }
-
-
-  addNote(payload: any) {
-    const headers = this.http.getHeaderToken();
-    return this.http.postApi('/addNote', payload, headers);
+    return this.http.postApi('/addNote', payload, httpOption.headers);
   }
+
+
+  // addNote(payload: any) {
+  //   const headers = this.http.getHeaderToken();
+  //   return this.http.postApi('/addNote', payload, headers);
+  // }
   
 
   getAllNotes()
   {
-    return this.http.getApi('/notes/getAllNotes');
+    let httpOption = {
+      headers: new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log('Headers:', httpOption);
+    return this.http.getApi('/getAllNotes', httpOption.headers);
   }
 
 }

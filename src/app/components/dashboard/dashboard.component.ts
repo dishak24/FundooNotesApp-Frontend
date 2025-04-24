@@ -35,61 +35,13 @@ export class DashboardComponent
   }
 
 
-  navigateToAddNote() {
+  navigateToAddNote() 
+  {
     this.router.navigate(['dashboard/add-note']);
   }
-  // Handle hover: expand or collapse sidenav based on mouse enter/leave
-  // onHover(state: boolean) {
-  //   this.hovering = state;
-  //   if (state) {
-  //     this.isExpanded = true;
-  //   } else if (!this.isExpanded) {
-  //     this.isExpanded = false;
-  //   }
-  // }
 
-
-//  notes: { title: string, content: string, color: string }[] = [];
-
-//   handleNoteAdded(note: { title: string, content: string, color: string }) {
-//   this.notes.unshift(note);
-// }
-
-
-// noteTitle: string = '';
-// noteContent: string = '';
-// selectedColor: string = '#fff'; // default
-// colors: string[] = ['#fff', '#f28b82', '#fbbc04', '#fff475', '#ccff90', '#a7ffeb', '#cbf0f8', '#aecbfa', '#d7aefb'];
-
-// notes: { title: string, content: string, color: string }[] = [];
-
-// changeColor(color: string) {
-//   this.selectedColor = color;
-// }
-
-// addNote() {
-//   if (this.noteTitle.trim() || this.noteContent.trim()) {
-//     this.notes.unshift({
-//       title: this.noteTitle,
-//       content: this.noteContent,
-//       color: this.selectedColor
-//     });
-
-//     // Clear inputs
-//     this.noteTitle = '';
-//     this.noteContent = '';
-//     this.selectedColor = '#fff';
-//   }
-// }
-
-  // notes: any[] = [];
-
-  // onNoteAdded(note: any) 
+  // navigateToDisplayNote() 
   // {
-  //   this.notes.unshift(note); // Add new note at the top
+  //   this.router.navigate(['dashboard/display-note']);
   // }
-
-
-  
-
 }
