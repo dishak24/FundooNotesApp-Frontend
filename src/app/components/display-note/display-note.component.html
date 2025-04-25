@@ -1,8 +1,10 @@
 <div class="notes-container">
     <div *ngFor="let note of notes" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
       <div class="note-header">
+
         <div class="note-title">{{ note.title }}</div>
-        <mat-icon class="pin-icon" (click)="togglePin(note)">push_pin</mat-icon>
+        <mat-icon class="pin-icon">push_pin</mat-icon>
+        
       </div>
   
       <div class="note-content">{{ note.description }}</div>
@@ -16,7 +18,7 @@
         <mat-icon>more_vert</mat-icon>
       </div>
   
-      <!-- COLOR PICKER -->
+      
       <div class="color-picker" *ngIf="note.showColorPicker">
         <div *ngFor="let color of colors" class="color-circle" [ngStyle]="{ 'background-color': color }" (click)="selectColor(note, color)">
         </div>
