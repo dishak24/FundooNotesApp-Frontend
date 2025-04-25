@@ -17,6 +17,7 @@ export class NoteService
 
   }
 
+  //create note 
   addNote(payload: any)
   {
     let httpOption = {
@@ -37,7 +38,7 @@ export class NoteService
   //   return this.http.postApi('/addNote', payload, headers);
   // }
   
-
+//get all notes
   getAllNotes()
   {
     let httpOption = {
@@ -49,6 +50,20 @@ export class NoteService
     };
     console.log('Headers:', httpOption);
     return this.http.getApi('/getAllNotes', httpOption.headers);
+  }
+
+  //to archive note
+  archiveNote(noteId: any)
+  {
+    let httpOption = {
+      headers: new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log('Headers:', httpOption);
+    return this.http.putApi(`/archive/${noteId}`,noteId, httpOption.headers);
   }
 
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoteService } from 'src/app/services/note/note.service';
 
 interface Note 
 {
+  notesId: number;
   title: string;
   description: string;
   colour: string;
@@ -15,7 +16,7 @@ interface Note
   templateUrl: './display-note.component.html',
   styleUrls: ['./display-note.component.scss']
 })
-export class DisplayNoteComponent implements OnInit 
+export class DisplayNoteComponent implements OnInit
 {
   notes: Note[] = [];
 
@@ -30,6 +31,7 @@ export class DisplayNoteComponent implements OnInit
   {
     this.getNotes();
   }
+
 
   getNotes()
   {
@@ -57,9 +59,52 @@ export class DisplayNoteComponent implements OnInit
     note.showColorPicker = !note.showColorPicker;
   }
 
-  selectColor(note: Note, color: string): void {
+  selectColor(note: Note, color: string) 
+  {
     note.colour = color;
     note.showColorPicker = false; //  after selection hide the color picker 
     
   }
+
+  toArchive(notes: Note)
+  {
+    console.log('Note ID:', notes.notesId);
+    if (!notes.notesId) 
+    {
+      const body = {
+        noteId: notes.notesId,
+      };
+
+      console.log('Note ID:', notes.notesId);
+
+      this.snackBar.open('Note ID is missing!', 'Close', 
+      {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+    this.noteService.archiveNote(notes.notesId).subscribe(
+    {
+      next: (result: any) => 
+      {
+        console.log('Note archived successfully:', result);
+
+        this.snackBar.open('Note archived successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        this.getNotes();//to refresh the notes after archiving
+      },
+      error: (err) => 
+      {
+        this.snackBar.open('Archiving note failed', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
 }
+
