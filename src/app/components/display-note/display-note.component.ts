@@ -1,5 +1,6 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { NoteService } from 'src/app/services/note/note.service';
 
 interface Note 
@@ -9,6 +10,7 @@ interface Note
   description: string;
   colour: string;
   showColorPicker: boolean; //for each note
+  isArchived: boolean; 
 }
 
 @Component({
@@ -16,19 +18,29 @@ interface Note
   templateUrl: './display-note.component.html',
   styleUrls: ['./display-note.component.scss']
 })
-export class DisplayNoteComponent implements OnInit
+export class DisplayNoteComponent implements OnInit, OnChanges
 {
   notes: Note[] = [];
+
+  // receive a value from its parent
+  @Input() showArchived: boolean = false;  // Input property to determine whether to archived or non-archived notes
+ 
 
   colors: string[] = [
     '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
     '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
   ];
 
-  constructor(private noteService: NoteService, private snackBar: MatSnackBar) {}
+  constructor(private noteService: NoteService, private snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit() 
   {
+    this.getNotes();
+  }
+
+  ngOnChanges() 
+  {
+    // When showArchived changes, reload the notes
     this.getNotes();
   }
 
@@ -40,7 +52,11 @@ export class DisplayNoteComponent implements OnInit
       next: (result: any) => 
       {
         this.notes = Array.isArray(result) ? result : result.data;
+       
         console.log(this.notes);
+
+        // Filter notes based on the showArchived property
+        this.notes = this.notes.filter((note: Note) => this.showArchived ? note.isArchived : !note.isArchived);
       },
       error: (err) => 
       {
@@ -96,6 +112,9 @@ export class DisplayNoteComponent implements OnInit
         });
 
         this.getNotes();//to refresh the notes after archiving
+        // Update the notes list to reflect the archive status change
+        notes.isArchived = true;
+        //this.router.navigate(['/archive']);
       },
       error: (err) => 
       {
@@ -106,5 +125,8 @@ export class DisplayNoteComponent implements OnInit
       }
     });
   }
+
+
+  
 }
 

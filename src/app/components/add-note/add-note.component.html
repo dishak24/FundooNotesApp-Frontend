@@ -11,8 +11,12 @@
     </mat-icon>
 
     <input formControlName="title" placeholder="Title" />
-    <textarea formControlName="content" placeholder="Take a note..."></textarea>
-
+    <textarea 
+          formControlName="content" 
+          placeholder="Take a note..." 
+          rows="3"
+          (keydown.enter)="$event.stopPropagation()"
+        ></textarea>
     <div class="actions">
       <button mat-icon-button (click)="toggleColorPicker($event)">
         <mat-icon>palette</mat-icon>

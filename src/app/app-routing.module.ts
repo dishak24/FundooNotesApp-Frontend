@@ -7,6 +7,7 @@ import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { AddNoteComponent } from './components/add-note/add-note.component';
 import { DisplayNoteComponent } from './components/display-note/display-note.component';
 import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
+import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.component';
 
 const routes: Routes = [
   {
@@ -25,11 +26,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService],//property - true or false
     children: [
       // { path: '', component: AddNoteComponent },
-      { path: '', component: AllDisplayNotesComponent },
-      // Add more child routes as needed
-    ]// after note container
-    //archive, remainder adding here-- component name , Componant 
-    
+      { path: '', component: AllDisplayNotesComponent }, ]
+  },
+  { path: 'archive', 
+    component: ArchiveNotesComponent, 
+    data: { type: 'archive' } 
   },
   {
     path: 'addNote',

@@ -30,6 +30,7 @@ export class AddNoteComponent implements OnInit, OnDestroy {
   ];
 
   @ViewChild('noteCard', { static: true }) noteCard!: ElementRef;
+  
   @Output() noteAdded = new EventEmitter<any>();
 
   constructor(

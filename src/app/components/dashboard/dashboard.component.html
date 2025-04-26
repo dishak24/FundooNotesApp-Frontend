@@ -85,7 +85,12 @@
   </mat-sidenav>
 
   <!-- routed content: for add note -->
-  <mat-sidenav-content>
+  <!-- <mat-sidenav-content>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
+</mat-sidenav-container> -->
+
+<mat-sidenav-content>
+  <app-all-display-notes [showArchived]="showArchived"></app-all-display-notes>
+</mat-sidenav-content>
 </mat-sidenav-container>

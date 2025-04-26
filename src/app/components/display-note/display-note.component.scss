@@ -48,7 +48,13 @@
   margin-bottom: 8px;
   overflow: hidden;
   max-height: 120px;
-}
+  
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
 
 .note-icons {
   display: none;
@@ -106,4 +112,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+
 

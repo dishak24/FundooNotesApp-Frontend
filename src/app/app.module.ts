@@ -37,6 +37,7 @@ import { AddNoteComponent } from './components/add-note/add-note.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DisplayNoteComponent } from './components/display-note/display-note.component';
 import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
+import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.component';
 
 
 @NgModule(
@@ -48,7 +49,8 @@ import { AllDisplayNotesComponent } from './components/all-display-notes/all-dis
     DashboardComponent,
     AddNoteComponent,
     DisplayNoteComponent,
-    AllDisplayNotesComponent
+    AllDisplayNotesComponent,
+    ArchiveNotesComponent
   ],
   imports: [
     BrowserModule,

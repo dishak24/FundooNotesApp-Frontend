@@ -10,10 +10,11 @@ export class DashboardComponent
 {
   isExpanded = false;
   activeItem: string = 'Notes'; // default selected
+  showArchived: boolean = false;
+  
   
   constructor(private router: Router) { }
-  //for sidenav
-  //hovering = false; // default false Flag for hover state
+  
   //to toggle the sidenav
   toggleSidenav() 
   {
@@ -30,18 +31,24 @@ export class DashboardComponent
     this.router.navigate(['/login']); 
   }
 
-  setActive(item: string) {
-    this.activeItem = item;
-  }
+  // setActive(item: string) {
+  //   this.activeItem = item;
+  // }
 
+  // Set active tab and toggle archived notes display
+  setActive(item: string) 
+  {
+    this.activeItem = item;
+    if (item === 'Archive') {
+      this.showArchived = true; // Show archived notes when Archive tab is clicked
+    } else if (item === 'Notes') {
+      this.showArchived = false; // Show regular notes when Notes tab is clicked
+    }
+  }
 
   navigateToAddNote() 
   {
     this.router.navigate(['dashboard/add-note']);
   }
 
-  // navigateToDisplayNote() 
-  // {
-  //   this.router.navigate(['dashboard/display-note']);
-  // }
 }
