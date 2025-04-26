@@ -8,9 +8,13 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent 
 {
+  headerTitle: string = 'FunDoo';//Title
   isExpanded = false;
+  
   activeItem: string = 'Notes'; // default selected
+
   showArchived: boolean = false;
+
   
   
   constructor(private router: Router) { }
@@ -39,11 +43,27 @@ export class DashboardComponent
   setActive(item: string) 
   {
     this.activeItem = item;
-    if (item === 'Archive') {
+    if (item === 'Archive') 
+    {
       this.showArchived = true; // Show archived notes when Archive tab is clicked
-    } else if (item === 'Notes') {
+      this.headerTitle = 'Archive';
+    } 
+    else if (item === 'Notes') 
+    {
       this.showArchived = false; // Show regular notes when Notes tab is clicked
+      this.headerTitle = 'FunDoo';
     }
+    else if (item === 'Trash') 
+    {
+        this.showArchived = false; 
+        this.headerTitle = 'Trash';
+    }
+    else if (item === 'Reminders') 
+    {
+        this.showArchived = false;
+        this.headerTitle = 'Reminders';
+    }
+    
   }
 
   navigateToAddNote() 

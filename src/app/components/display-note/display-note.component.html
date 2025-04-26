@@ -16,7 +16,10 @@
         <mat-icon>person_add</mat-icon>
         <mat-icon>image</mat-icon>
       
-        <mat-icon (click)="toArchive(note)">archive</mat-icon>
+        <!-- <mat-icon (click)="toArchive(note)">archive</mat-icon> -->
+        <mat-icon (click)="toArchive(note)">
+          {{ showArchived ? 'unarchive' : 'archive' }}
+        </mat-icon>
 
         <mat-icon>more_vert</mat-icon>
       </div>
