@@ -44,6 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditNoteComponent } from './components/edit-note/edit-note.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
 
 @NgModule(
@@ -58,7 +59,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     AllDisplayNotesComponent,
     ArchiveNotesComponent,
     TrashNotesComponent,
-    EditNoteComponent
+    EditNoteComponent,
+    CollaboratorsComponent
   ],
   imports: [
     BrowserModule,

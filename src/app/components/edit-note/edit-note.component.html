@@ -1,34 +1,31 @@
-<mat-dialog-content>
-  <div class="note-card" [ngStyle]="{ 'background-color': colour }">
+<mat-dialog-content class="note-card" [ngStyle]="{ 'background-color': colour }">
+  <div >
 
     <!-- Title and Pin Icon -->
     <div class="note-header">
       <div class="note-title">
         <input [(ngModel)]="title" class="title-input" placeholder="Title" />
       </div>
-      <mat-icon class="pin-icon">
-        {{ note.isPinned ? 'push_pin' : '' }}
+      <mat-icon class="pin-icon" matTooltip="Pin Note">
+        {{ note.isPinned ? 'push_pin' : 'push_pin' }}
       </mat-icon>
     </div>
-
+    <br>
     <!-- Description -->
     <div class="note-content">
       <textarea [(ngModel)]="description" placeholder="Take a note..." rows="5"></textarea>
     </div>
 
-    <!-- Bottom Icons -->
-    <div class="note-icons">
-      <mat-icon>palette</mat-icon>
-      <mat-icon>notifications_none</mat-icon>
-      <mat-icon>person_add</mat-icon>
-      <mat-icon>image</mat-icon>
-      <mat-icon>archive</mat-icon>
-      <mat-icon>more_vert</mat-icon>
-    </div>
-
-    <!-- Close Button -->
-    <div class="dialog-actions">
-      <button mat-button (click)="closeDialog()">Close</button>
+    <div class="note-bottom-bar">
+      <div class="note-icons">
+        <mat-icon matTooltip="Background options">palette</mat-icon>
+        <mat-icon matTooltip="Remind me">notifications_none</mat-icon>
+        <mat-icon matTooltip="Collaborator">person_add</mat-icon>
+        <mat-icon matTooltip="Add image">image</mat-icon>
+        <mat-icon matTooltip="Archive">archive</mat-icon>
+        <mat-icon matTooltip="More">more_vert</mat-icon>
+      </div>
+      <button mat-button class="close-btn" (click)="closeDialog()">Close</button>
     </div>
 
   </div>

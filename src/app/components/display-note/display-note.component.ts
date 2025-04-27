@@ -123,7 +123,24 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   selectColor(note: Note, color: string) 
   {
     note.colour = color;
-    note.showColorPicker = false; //  after selection hide the color picker 
+    note.showColorPicker = false; //  after selection hide the color picker
+    
+    this.noteService.addColour(note.notesId, color).subscribe({
+      next: (result) => {
+        console.log('Color updated successfully:', result);
+        this.snackBar.open('Note color updated!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (err) => {
+        console.error('Error updating color', err);
+        this.snackBar.open('Failed to update color', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
     
   }
 

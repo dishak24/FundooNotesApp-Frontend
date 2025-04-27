@@ -6,7 +6,7 @@
 
   <!-- Expanded View -->
   <ng-container *ngIf="isExpanded; else collapsedView">
-    <mat-icon class="pin-icon" (click)="togglePin($event)">
+    <mat-icon class="pin-icon" (click)="togglePin($event)" matTooltip="Pin Note">
       {{ note.isPinned ? 'push_pin' : 'push_pin' }}
     </mat-icon>
 
@@ -18,14 +18,14 @@
           (keydown.enter)="$event.stopPropagation()"
         ></textarea>
     <div class="actions">
-      <button mat-icon-button (click)="toggleColorPicker($event)">
+      <button mat-icon-button (click)="toggleColorPicker($event)" matTooltip="Background options">
         <mat-icon>palette</mat-icon>
       </button>
-      <button mat-icon-button><mat-icon>notifications_none</mat-icon></button>
-      <button mat-icon-button><mat-icon>person_add</mat-icon></button>
-      <button mat-icon-button><mat-icon>image</mat-icon></button>
-      <button mat-icon-button><mat-icon>archive</mat-icon></button>
-      <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+      <button mat-icon-button matTooltip="Remind me"><mat-icon>notifications_none</mat-icon></button>
+      <button mat-icon-button matTooltip="Collaborator"><mat-icon>person_add</mat-icon></button>
+      <button mat-icon-button matTooltip="Add image"><mat-icon>image</mat-icon></button>
+      <button mat-icon-button matTooltip="Archive"><mat-icon>archive</mat-icon></button>
+      <button mat-icon-button matTooltip="More"><mat-icon>more_vert</mat-icon></button>
 
       <button class="close-btn" (click)="closeNote(); $event.stopPropagation()">Close</button>
     </div>
