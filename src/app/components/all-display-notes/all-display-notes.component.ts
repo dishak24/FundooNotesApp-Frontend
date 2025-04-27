@@ -12,8 +12,8 @@ export class AllDisplayNotesComponent {
   @ViewChild(DisplayNoteComponent) displayNoteComp!: DisplayNoteComponent;
 
   @Input() showArchived: boolean = false; 
- //showArchived: boolean = false;
-
+  @Input() showTrash: boolean = false;
+ 
   onNoteAdded(newNote: any) 
   {
     if (this.displayNoteComp) 

@@ -1,6 +1,8 @@
 <!-- all-display-notes component -->
 
 <!-- Only show add-note when not viewing archived notes -->
-<app-add-note *ngIf="!showArchived" (noteAdded)="onNoteAdded($event)"></app-add-note>
+<app-add-note *ngIf="!showArchived && !showTrash" (noteAdded)="onNoteAdded($event)"></app-add-note>
 <!-- <app-display-note></app-display-note> -->
-<app-display-note [showArchived]="showArchived"></app-display-note>
+
+
+<app-display-note [showArchived]="showArchived" [showTrash]="showTrash"></app-display-note>

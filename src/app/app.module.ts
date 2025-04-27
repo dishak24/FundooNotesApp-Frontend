@@ -38,6 +38,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DisplayNoteComponent } from './components/display-note/display-note.component';
 import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
 import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.component';
+import { TrashNotesComponent } from './components/trash-notes/trash-notes.component';
+
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditNoteComponent } from './components/edit-note/edit-note.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule(
@@ -50,7 +56,9 @@ import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.
     AddNoteComponent,
     DisplayNoteComponent,
     AllDisplayNotesComponent,
-    ArchiveNotesComponent
+    ArchiveNotesComponent,
+    TrashNotesComponent,
+    EditNoteComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +82,9 @@ import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatDialogModule
 
     
     

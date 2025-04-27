@@ -10,10 +10,12 @@ export class DashboardComponent
 {
   headerTitle: string = 'FunDoo';//Title
   isExpanded = false;
-  
+
   activeItem: string = 'Notes'; // default selected
 
-  showArchived: boolean = false;
+  showArchived: boolean = false;//archive flag
+  showTrash: boolean = false;//trash flag
+
 
   
   
@@ -47,21 +49,25 @@ export class DashboardComponent
     {
       this.showArchived = true; // Show archived notes when Archive tab is clicked
       this.headerTitle = 'Archive';
+      this.showTrash = false;
     } 
     else if (item === 'Notes') 
     {
       this.showArchived = false; // Show regular notes when Notes tab is clicked
       this.headerTitle = 'FunDoo';
+      this.showTrash = false;
     }
     else if (item === 'Trash') 
     {
         this.showArchived = false; 
         this.headerTitle = 'Trash';
+        this.showTrash = true; // Show trash notes when Trash tab is clicked
     }
     else if (item === 'Reminders') 
     {
         this.showArchived = false;
         this.headerTitle = 'Reminders';
+        this.showTrash = false;
     }
     
   }

@@ -95,6 +95,24 @@
   cursor: pointer;
 }
 
+::ng-deep .more-options-menu {
+  padding: 0;
+  min-width: 180px;
+}
+
+::ng-deep .more-options-menu .mat-menu-item {
+  font-size: 10px;
+  padding: 6px 12px;
+  height: 36px;
+}
+
+::ng-deep .more-options-menu .mat-icon {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #5f6368;
+}
+
+
 @media (max-width: 1200px) {
   .notes-container {
     grid-template-columns: repeat(3, 1fr);

@@ -8,6 +8,8 @@ import { AddNoteComponent } from './components/add-note/add-note.component';
 import { DisplayNoteComponent } from './components/display-note/display-note.component';
 import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
 import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.component';
+import { TrashNotesComponent } from './components/trash-notes/trash-notes.component';
+import { EditNoteComponent } from './components/edit-note/edit-note.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
   { path: 'archive', 
     component: ArchiveNotesComponent, 
     data: { type: 'archive' } 
+  },
+  { path: 'trash', 
+    component: TrashNotesComponent, 
+    data: { type: 'trash' } 
+  },
+  {
+    path: 'editNote',
+    component: EditNoteComponent
   },
   {
     path: 'addNote',

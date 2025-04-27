@@ -2,6 +2,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NoteService } from 'src/app/services/note/note.service';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 interface Note 
 {
@@ -10,7 +12,8 @@ interface Note
   description: string;
   colour: string;
   showColorPicker: boolean; //for each note
-  isArchived: boolean; 
+  isArchived: boolean;
+  isTrashed: boolean; 
 }
 
 @Component({
@@ -21,17 +24,20 @@ interface Note
 export class DisplayNoteComponent implements OnInit, OnChanges
 {
   notes: Note[] = [];
+  trash: Note[] = []; // This will hold the trashed notes
+
+
 
   // receive a value from its parent
   @Input() showArchived: boolean = false;  // Input property to determine whether to archived or non-archived notes
- 
+  @Input() showTrash: boolean = false; // Input property to determine whether to show trash notes
 
   colors: string[] = [
     '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
     '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
   ];
 
-  constructor(private noteService: NoteService, private snackBar: MatSnackBar, private router: Router) {}
+  constructor(private noteService: NoteService, private snackBar: MatSnackBar, private router: Router, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() 
   {
@@ -45,28 +51,37 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   }
 
 
-  getNotes()
+  getNotes() 
   {
-    this.noteService.getAllNotes().subscribe(
-    {
-      next: (result: any) => 
-      {
+    this.noteService.getAllNotes().subscribe({
+      next: (result: any) => {
         this.notes = Array.isArray(result) ? result : result.data;
-       
+  
+        // Filter based on showTrash and showArchived
+        if (this.showTrash) 
+        {
+          this.notes = this.notes.filter((note: Note) => note.isTrashed);
+        } 
+        else if (this.showArchived) 
+        {
+          this.notes = this.notes.filter((note: Note) => note.isArchived && !note.isTrashed);
+        } 
+        else 
+        {
+          this.notes = this.notes.filter((note: Note) => !note.isArchived && !note.isTrashed);
+        }
+  
         console.log(this.notes);
-
-        // Filter notes based on the showArchived property
-        this.notes = this.notes.filter((note: Note) => this.showArchived ? note.isArchived : !note.isArchived);
       },
-      error: (err) => 
-      {
-          this.snackBar.open('Getting all notes failed !!!!', 'Close', {
-            duration: 3000,
-            panelClass: ['error-snackbar']
-          });
+      error: (err) => {
+        this.snackBar.open('Getting all notes failed !!!!', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
       }
     });
   }
+   
 
 
   toggleColorPicker(note: Note, event: MouseEvent)
@@ -82,6 +97,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     
   }
 
+  //archive note
   toArchive(notes: Note)
   {
     console.log('Note ID:', notes.notesId);
@@ -126,7 +142,139 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     });
   }
 
+  //trash note
+  trashNote(notes: Note)
+  {
+    console.log('Note ID:', notes.notesId);
+    if (!notes.notesId) 
+    {
+      const body = {
+        noteId: notes.notesId,
+      };
 
+      console.log('Note ID:', notes.notesId);
+
+      this.snackBar.open('Note ID is missing!', 'Close', 
+      {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+    this.noteService.trashNote(notes.notesId).subscribe(
+    {
+      next: (result: any) => 
+      {
+        console.log('Note moved to trash', result);
+
+        this.snackBar.open('Note moved to trash', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        this.getNotes();//to refresh the notes after archiving
+        // Update the notes list to reflect the archive status change
+        notes.isTrashed = true;
+        //this.router.navigate(['/archive']);
+      },
+      error: (err) => 
+      {
+        this.snackBar.open('Failed to move note in trash !!!!', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+  
+  //unTrash note
+  unTrashNote(notes: Note)
+  {
+    console.log('Note ID:', notes.notesId);
+    if (!notes.notesId) 
+    {
+      const body = {
+        noteId: notes.notesId,
+      };
+
+      console.log('Note ID:', notes.notesId);
+
+      this.snackBar.open('Note ID is missing!', 'Close', 
+      {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+    this.noteService.trashNote(notes.notesId).subscribe(
+    {
+      next: (result: any) => 
+      {
+        console.log('Note Restored', result);
+
+        this.snackBar.open('Note Restored', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        this.getNotes();//to refresh the notes after archiving
+        // Update the notes list to reflect the archive status change
+        notes.isTrashed = false;
+        
+      },
+      error: (err) => 
+      {
+        this.snackBar.open('Failed to Restore Note !!!!', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+
+  deletePermanent(notes: Note)
+  {
+    console.log('Note ID:', notes.notesId);
+    if (!notes.notesId) 
+    {
+      const body = {
+        noteId: notes.notesId,
+      };
+
+      console.log('Note ID:', notes.notesId);
+
+      this.snackBar.open('Note ID is missing!', 'Close', 
+      {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+    this.noteService.deleteNote(notes.notesId).subscribe(
+    {
+      next: (result: any) => 
+      {
+        console.log('Note deleted permanently', result);
+
+        this.snackBar.open('Note deleted permanently', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        this.getNotes();//to refresh the notes after archiving
+        // Update the notes list to reflect the archive status change
+        //notes.isTrashed = true;
+        
+      },
+      error: (err) => 
+      {
+        this.snackBar.open('Failed to delete note permanently !!!!', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
   
 }
 

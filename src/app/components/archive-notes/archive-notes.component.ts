@@ -11,26 +11,14 @@ export class ArchiveNotesComponent {
 
   filteredNotes: any[] = [];
 
-  constructor(private route: ActivatedRoute, private noteService: NoteService) {}
+  constructor(private noteService: NoteService) {}
 
 
-ngOnInit(): void 
-{
-  const tabType = this.route.snapshot.data['type'];
-
-  this.noteService.getAllNotes().subscribe((response: any) => 
+  ngOnInit(): void 
   {
-    //cast the response to an array
-    const notes = response as any[];
-    this.filteredNotes = notes.filter((note: any) => 
+    this.noteService.getAllNotes().subscribe((response: any) => 
     {
-      return tabType === 'archive' ? note.isArchived : !note.isArchived;
+          this.filteredNotes = response.filter((note: any) => note.isArchived === true);
     });
-  });
-  
-}
-
-  
-  
-
+  }
 }

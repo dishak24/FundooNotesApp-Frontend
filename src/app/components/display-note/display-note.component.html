@@ -4,24 +4,65 @@
       <div class="note-header">
 
         <div class="note-title">{{ note.title }}</div>
-        <mat-icon class="pin-icon">push_pin</mat-icon>
+
+        <mat-icon *ngIf="!note.isTrashed" class="pin-icon" matTooltip="Pin note">push_pin</mat-icon>
 
       </div>
   
       <div class="note-content">{{ note.description }}</div>
+
+      
   
       <div class="note-icons">
-        <mat-icon (click)="toggleColorPicker(note, $event)">palette</mat-icon>
-        <mat-icon>notifications_none</mat-icon>
-        <mat-icon>person_add</mat-icon>
-        <mat-icon>image</mat-icon>
+
+      <!-- Show only the untrash and permanent delete icons if note is in trash -->
+       <div>
+        <mat-icon *ngIf="note.isTrashed" (click)="unTrashNote(note)" matTooltip="Restore">restore</mat-icon>
+        <mat-icon *ngIf="note.isTrashed" (click)="deletePermanent(note)" matTooltip="Delete forever">delete_forever</mat-icon>
+       </div>
+      
+
+        <mat-icon  *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event)" matTooltip="Background options">palette</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Reminde me">notifications_none</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator">person_add</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Add image">image</mat-icon>
       
         <!-- <mat-icon (click)="toArchive(note)">archive</mat-icon> -->
-        <mat-icon (click)="toArchive(note)">
+        <mat-icon (click)="toArchive(note)" *ngIf="!note.isTrashed" matTooltip="{{ showArchived ? 'Unarchive' : 'Archive' }}">
           {{ showArchived ? 'unarchive' : 'archive' }}
         </mat-icon>
 
-        <mat-icon>more_vert</mat-icon>
+        <!-- More options with menu -->
+        
+        <mat-icon [matMenuTriggerFor]="noteMenu" *ngIf="!note.isTrashed" matTooltip="More">more_vert</mat-icon>
+                <mat-menu #noteMenu="matMenu" class="more-options-menu">
+          <button mat-menu-item (click)="trashNote(note)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+
+          <button mat-menu-item>
+            <mat-icon>content_copy</mat-icon>
+            <span>Make a copy</span>
+          </button>
+
+          <button mat-menu-item>
+            <mat-icon>palette</mat-icon>
+            <span>Change label</span>
+          </button>
+
+          <button mat-menu-item>
+            <mat-icon>add_alert</mat-icon>
+            <span>Add reminder</span>
+          </button>
+
+          <button mat-menu-item>
+            <mat-icon>check_box</mat-icon>
+            <span>Show checkboxes</span>
+          </button>
+        </mat-menu>
+
+        
       </div>
   
       

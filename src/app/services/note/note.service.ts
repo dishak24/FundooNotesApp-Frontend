@@ -66,4 +66,31 @@ export class NoteService
     return this.http.putApi(`/archive/${noteId}`,noteId, httpOption.headers);
   }
 
+  trashNote(noteId: any)
+  {
+    let httpOption = {
+      headers: new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log('Headers:', httpOption);
+    return this.http.putApi(`/trash/${noteId}`,noteId, httpOption.headers);
+  }
+
+  //to delete note
+  deleteNote(noteId: any)
+  {
+    let httpOption = {
+      headers: new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log('Headers:', httpOption);
+    return this.http.deleteApi(`/deleteNote/${noteId}`, httpOption.headers);
+  }
+
 }
