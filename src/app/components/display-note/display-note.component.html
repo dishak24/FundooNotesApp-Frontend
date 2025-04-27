@@ -1,6 +1,6 @@
 
 <div class="notes-container">
-    <div *ngFor="let note of notes" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
+    <div *ngFor="let note of notes" (click)="openNoteForEdit(note)" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
       <div class="note-header">
 
         <div class="note-title">{{ note.title }}</div>

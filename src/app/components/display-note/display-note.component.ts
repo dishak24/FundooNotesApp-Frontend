@@ -1,8 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NoteService } from 'src/app/services/note/note.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { EditNoteComponent } from '../edit-note/edit-note.component';
 
 
 interface Note 
@@ -32,12 +34,22 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   @Input() showArchived: boolean = false;  // Input property to determine whether to archived or non-archived notes
   @Input() showTrash: boolean = false; // Input property to determine whether to show trash notes
 
+  @Output() editExistingNote = new EventEmitter<any>();
+
+  //notes: any[] = []; // your notes list
+
+
+
   colors: string[] = [
     '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
     '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
   ];
 
-  constructor(private noteService: NoteService, private snackBar: MatSnackBar, private router: Router, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private noteService: NoteService, 
+    private snackBar: MatSnackBar, 
+    private router: Router, 
+    private dialog: MatDialog // Inject MatDialog service
+    ) {}
 
   ngOnInit() 
   {
@@ -50,6 +62,24 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     this.getNotes();
   }
 
+  // Open edit dialog on note click
+  openNoteForEdit(note: any) {
+    const dialogRef = this.dialog.open(EditNoteComponent, {
+      data: note,
+    });
+  
+    dialogRef.afterClosed().subscribe((updatedNote) => {
+      if (updatedNote) {
+        // Find the original note in the notes array and update it
+        const index = this.notes.findIndex((n: any) => n.notesId === updatedNote.notesId);
+        if (index !== -1) {
+          this.notes[index] = updatedNote;
+        }
+      }
+    });
+  }
+  
+  
 
   getNotes() 
   {

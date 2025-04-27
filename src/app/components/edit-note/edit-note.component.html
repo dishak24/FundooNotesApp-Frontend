@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <div class="note-card" [ngStyle]="{ 'background-color': colour }">
+
+    <!-- Title and Pin Icon -->
+    <div class="note-header">
+      <div class="note-title">
+        <input [(ngModel)]="title" class="title-input" placeholder="Title" />
+      </div>
+      <mat-icon class="pin-icon">
+        {{ note.isPinned ? 'push_pin' : '' }}
+      </mat-icon>
+    </div>
+
+    <!-- Description -->
+    <div class="note-content">
+      <textarea [(ngModel)]="description" placeholder="Take a note..." rows="5"></textarea>
+    </div>
+
+    <!-- Bottom Icons -->
+    <div class="note-icons">
+      <mat-icon>palette</mat-icon>
+      <mat-icon>notifications_none</mat-icon>
+      <mat-icon>person_add</mat-icon>
+      <mat-icon>image</mat-icon>
+      <mat-icon>archive</mat-icon>
+      <mat-icon>more_vert</mat-icon>
+    </div>
+
+    <!-- Close Button -->
+    <div class="dialog-actions">
+      <button mat-button (click)="closeDialog()">Close</button>
+    </div>
+
+  </div>
+</mat-dialog-content>
