@@ -24,7 +24,7 @@
 
         <mat-icon  *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event)" matTooltip="Background options">palette</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Remind me">notifications_none</mat-icon>
-        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator">person_add</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note)">person_add</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Add image">image</mat-icon>
       
         <!-- <mat-icon (click)="toArchive(note)">archive</mat-icon> -->

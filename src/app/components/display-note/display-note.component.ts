@@ -5,6 +5,7 @@ import { NoteService } from 'src/app/services/note/note.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditNoteComponent } from '../edit-note/edit-note.component';
+import { CollaboratorsComponent } from '../collaborators/collaborators.component';
 
 
 interface Note 
@@ -16,6 +17,7 @@ interface Note
   showColorPicker: boolean; //for each note
   isArchived: boolean;
   isTrashed: boolean; 
+  collaborators?: string[];
 }
 
 @Component({
@@ -62,25 +64,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     this.getNotes();
   }
 
-  // Open edit dialog on note click
-  openNoteForEdit(note: any) {
-    const dialogRef = this.dialog.open(EditNoteComponent, {
-      data: note,
-    });
   
-    dialogRef.afterClosed().subscribe((updatedNote) => {
-      if (updatedNote) {
-        // Find the original note in the notes array and update it
-        const index = this.notes.findIndex((n: any) => n.notesId === updatedNote.notesId);
-        if (index !== -1) {
-          this.notes[index] = updatedNote;
-        }
-      }
-    });
-  }
-  
-  
-
   getNotes() 
   {
     this.noteService.getAllNotes().subscribe({
@@ -322,6 +306,41 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       }
     });
   }
+
+
+// Open edit dialog on note click
+  openNoteForEdit(note: any) {
+    const dialogRef = this.dialog.open(EditNoteComponent, {
+      data: note,
+    });
+  
+    dialogRef.afterClosed().subscribe((updatedNote) => {
+      if (updatedNote) {
+        // Find the original note in the notes array and update it
+        const index = this.notes.findIndex((n: any) => n.notesId === updatedNote.notesId);
+        if (index !== -1) {
+          this.notes[index] = updatedNote;
+        }
+      }
+    });
+  }
+  
+// Open collaborators dialog
+  openCollaboratorsDialog(note: Note) {
+    const dialogRef = this.dialog.open(CollaboratorsComponent, {
+      data: {
+        noteId: note.notesId,
+        existingCollaborators: note.collaborators || []
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe((updatedCollaborators: string[]) => {
+      if (updatedCollaborators) {
+        note.collaborators = updatedCollaborators;
+      }
+    });
+  }
+  
   
 }
 

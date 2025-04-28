@@ -10,6 +10,7 @@ import { AllDisplayNotesComponent } from './components/all-display-notes/all-dis
 import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.component';
 import { TrashNotesComponent } from './components/trash-notes/trash-notes.component';
 import { EditNoteComponent } from './components/edit-note/edit-note.component';
+import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'allNotes',
     component: AllDisplayNotesComponent
+  },
+  {
+    path: 'addCollaborator',
+    component: CollaboratorsComponent
   },
 
   {

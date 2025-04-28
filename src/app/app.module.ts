@@ -46,6 +46,7 @@ import { EditNoteComponent } from './components/edit-note/edit-note.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule(
   {
@@ -86,8 +87,8 @@ import { CollaboratorsComponent } from './components/collaborators/collaborators
     MatMenuModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatDialogModule
-
+    MatDialogModule,
+    MatChipsModule
     
     
   ],
