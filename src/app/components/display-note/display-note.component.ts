@@ -42,7 +42,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
 
 
 
-  colors: string[] = [
+  colours: string[] = [
     '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
     '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
   ];
@@ -104,18 +104,22 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     note.showColorPicker = !note.showColorPicker;
   }
 
-  selectColor(note: Note, color: string) 
+  selectColor(note: Note, colour: string, event: MouseEvent) 
   {
-    note.colour = color;
+    event.stopPropagation();
+    note.colour = colour;
     note.showColorPicker = false; //  after selection hide the color picker
     
-    this.noteService.addColour(note.notesId, color).subscribe({
+    const payload = { colour: colour }; 
+
+    this.noteService.addColour(note.notesId, payload).subscribe({
       next: (result) => {
         console.log('Color updated successfully:', result);
         this.snackBar.open('Note color updated!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
+        this.getNotes(); // Refresh the notes after updating color
       },
       error: (err) => {
         console.error('Error updating color', err);
@@ -129,8 +133,9 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   }
 
   //archive note
-  toArchive(notes: Note)
+  toArchive(notes: Note, event: MouseEvent)
   {
+    event.stopPropagation();
     console.log('Note ID:', notes.notesId);
     if (!notes.notesId) 
     {
@@ -219,8 +224,9 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   }
   
   //unTrash note
-  unTrashNote(notes: Note)
+  unTrashNote(notes: Note, event: MouseEvent)
   {
+    event.stopPropagation();
     console.log('Note ID:', notes.notesId);
     if (!notes.notesId) 
     {
@@ -263,8 +269,9 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     });
   }
 
-  deletePermanent(notes: Note)
+  deletePermanent(notes: Note, event: MouseEvent)
   {
+    event.stopPropagation();
     console.log('Note ID:', notes.notesId);
     if (!notes.notesId) 
     {
@@ -326,16 +333,22 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   }
   
 // Open collaborators dialog
-  openCollaboratorsDialog(note: Note) {
-    const dialogRef = this.dialog.open(CollaboratorsComponent, {
-      data: {
+  openCollaboratorsDialog(note: Note, event: MouseEvent) 
+  {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(CollaboratorsComponent, 
+    {
+      data: 
+      {
         noteId: note.notesId,
         existingCollaborators: note.collaborators || []
       }
     });
   
-    dialogRef.afterClosed().subscribe((updatedCollaborators: string[]) => {
-      if (updatedCollaborators) {
+    dialogRef.afterClosed().subscribe((updatedCollaborators: string[]) => 
+    {
+      if (updatedCollaborators) 
+      {
         note.collaborators = updatedCollaborators;
       }
     });

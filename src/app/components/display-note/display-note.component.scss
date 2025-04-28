@@ -21,10 +21,11 @@
 
   &:hover {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-
+  
     .note-icons,
     .pin-icon {
-      display: flex;
+      visibility: visible;
+      opacity: 1;
     }
   }
 }
@@ -56,12 +57,14 @@
   }
 
 
-.note-icons {
-  display: none;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: auto;
-}
+  .note-icons {
+    visibility: hidden; // hide but still occupy space
+    opacity: 0;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: auto;
+    transition: opacity 0.2s ease;
+  }
 
 .note-icons mat-icon {
   font-size: 20px;

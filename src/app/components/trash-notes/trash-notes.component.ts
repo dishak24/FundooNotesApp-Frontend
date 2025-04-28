@@ -11,7 +11,7 @@ export class TrashNotesComponent
 {
   filteredNotes: any[] = [];
   
-  constructor(private route: ActivatedRoute, private noteService: NoteService) {}
+  constructor(private noteService: NoteService) {}
   
   ngOnInit(): void {
     

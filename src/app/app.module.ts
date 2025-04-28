@@ -47,6 +47,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
 import { MatChipsModule } from '@angular/material/chips';
+import { NoteIconsComponent } from './components/note-icons/note-icons.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 
 @NgModule(
   {
@@ -61,7 +63,9 @@ import { MatChipsModule } from '@angular/material/chips';
     ArchiveNotesComponent,
     TrashNotesComponent,
     EditNoteComponent,
-    CollaboratorsComponent
+    CollaboratorsComponent,
+    NoteIconsComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,

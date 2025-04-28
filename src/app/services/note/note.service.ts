@@ -108,16 +108,14 @@ export class NoteService
   }
 
   //to add colour
-  addColour(noteId: any, payload: any)
-  {
+  addColour(noteId: any, payload: any) {
     let httpOption = {
-      headers: new HttpHeaders(
-      {
+      headers: new HttpHeaders({
         'Authorization': `Bearer ${this.token}`,
         'Content-Type': 'application/json'
       })
     };
-    console.log('Headers:', httpOption);
+  
     return this.http.putApi(`/addColour/${noteId}`, payload, httpOption.headers);
   }
 

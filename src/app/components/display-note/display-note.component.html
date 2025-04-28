@@ -17,24 +17,24 @@
 
       <!-- Show only the untrash and permanent delete icons if note is in trash -->
        <div>
-        <mat-icon *ngIf="note.isTrashed" (click)="unTrashNote(note)" matTooltip="Restore">restore</mat-icon>
-        <mat-icon *ngIf="note.isTrashed" (click)="deletePermanent(note)" matTooltip="Delete forever">delete_forever</mat-icon>
+        <mat-icon *ngIf="note.isTrashed" (click)="unTrashNote(note, $event)" matTooltip="Restore" >restore</mat-icon>
+        <mat-icon *ngIf="note.isTrashed" (click)="deletePermanent(note, $event)" matTooltip="Delete forever">delete_forever</mat-icon>
        </div>
       
 
         <mat-icon  *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event)" matTooltip="Background options">palette</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Remind me">notifications_none</mat-icon>
-        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note)">person_add</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note, $event)">person_add</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Add image">image</mat-icon>
       
         <!-- <mat-icon (click)="toArchive(note)">archive</mat-icon> -->
-        <mat-icon (click)="toArchive(note)" *ngIf="!note.isTrashed" matTooltip="{{ showArchived ? 'Unarchive' : 'Archive' }}">
+        <mat-icon (click)="toArchive(note, $event)" *ngIf="!note.isTrashed" matTooltip="{{ showArchived ? 'Unarchive' : 'Archive' }}">
           {{ showArchived ? 'unarchive' : 'archive' }}
         </mat-icon>
 
         <!-- More options with menu -->
         
-        <mat-icon [matMenuTriggerFor]="noteMenu" *ngIf="!note.isTrashed" matTooltip="More">more_vert</mat-icon>
+        <mat-icon [matMenuTriggerFor]="noteMenu" *ngIf="!note.isTrashed" matTooltip="More" (click)="$event.stopPropagation()">more_vert</mat-icon>
                 <mat-menu #noteMenu="matMenu" class="more-options-menu">
           <button mat-menu-item (click)="trashNote(note)">
             <mat-icon>delete</mat-icon>
@@ -67,7 +67,7 @@
   
       
       <div class="color-picker" *ngIf="note.showColorPicker">
-        <div *ngFor="let color of colors" class="color-circle" [ngStyle]="{ 'background-color': color }" (click)="selectColor(note, color)">
+        <div *ngFor="let colour of colours" class="color-circle" [ngStyle]="{ 'background-color': colour }" (click)="selectColor(note, colour, $event)">
         </div>
       </div>
     </div>

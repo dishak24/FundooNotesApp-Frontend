@@ -23,11 +23,14 @@ export class CollaboratorsComponent {
     this.collaborators = [...data.existingCollaborators];
   }
 
+  //to add collaborator
   addCollaborator() 
   {
     if (!this.email) return;
 
-    this.service.addCollaborator(this.data.noteId, this.email).subscribe(
+    const payload = { email: this.email };
+
+    this.service.addCollaborator(this.data.noteId, payload).subscribe(
     {
       next: () => 
       {
@@ -44,6 +47,7 @@ export class CollaboratorsComponent {
     });
   }
 
+  //to remove collaborator
   removeCollaborator(email: string) 
   {
       

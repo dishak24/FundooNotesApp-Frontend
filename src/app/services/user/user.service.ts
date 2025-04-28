@@ -12,14 +12,12 @@ export class UserService {
 
   register(payload: any)
   {
-   //return this.http.postApi('https://localhost:44326/register', payload);
-   return this.http.postApi('/register', payload);
+    return this.http.postApi('/register', payload);
   }
 
   login(payload: any)
   {
-   //return this.http.postApi('https://localhost:44326/register', payload);
-   return this.http.postApi('/login', payload);
+    return this.http.postApi('/login', payload);
   }
 
 }
