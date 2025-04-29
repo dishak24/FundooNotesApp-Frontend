@@ -18,6 +18,7 @@ interface Note
   isArchived: boolean;
   isTrashed: boolean; 
   collaborators?: string[];
+  showIcons : boolean; //for each note
 }
 
 @Component({
@@ -38,8 +39,13 @@ export class DisplayNoteComponent implements OnInit, OnChanges
 
   @Output() editExistingNote = new EventEmitter<any>();
 
+  
   //notes: any[] = []; // your notes list
 
+  showNoteIcons(note: any, event: MouseEvent) {
+    event.stopPropagation(); // prevent click bubbling
+    note.showIcons = true;
+  }
 
 
   colours: string[] = [
@@ -319,6 +325,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   openNoteForEdit(note: any) {
     const dialogRef = this.dialog.open(EditNoteComponent, {
       data: note,
+      
     });
   
     dialogRef.afterClosed().subscribe((updatedNote) => {

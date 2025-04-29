@@ -22,21 +22,21 @@
        </div>
       
 
-        <mat-icon  *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event)" matTooltip="Background options">palette</mat-icon>
+        <mat-icon  *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event); showNoteIcons(note, $event)" matTooltip="Background options">palette</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Remind me">notifications_none</mat-icon>
-        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note, $event)">person_add</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note, $event); showNoteIcons(note, $event)">person_add</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Add image">image</mat-icon>
       
         <!-- <mat-icon (click)="toArchive(note)">archive</mat-icon> -->
-        <mat-icon (click)="toArchive(note, $event)" *ngIf="!note.isTrashed" matTooltip="{{ showArchived ? 'Unarchive' : 'Archive' }}">
+        <mat-icon (click)="toArchive(note, $event); showNoteIcons(note, $event)" *ngIf="!note.isTrashed" matTooltip="{{ showArchived ? 'Unarchive' : 'Archive' }}">
           {{ showArchived ? 'unarchive' : 'archive' }}
         </mat-icon>
 
         <!-- More options with menu -->
         
-        <mat-icon [matMenuTriggerFor]="noteMenu" *ngIf="!note.isTrashed" matTooltip="More" (click)="$event.stopPropagation()">more_vert</mat-icon>
+        <mat-icon [matMenuTriggerFor]="noteMenu" *ngIf="!note.isTrashed" matTooltip="More" (click)="$event.stopPropagation(); showNoteIcons(note, $event)">more_vert</mat-icon>
                 <mat-menu #noteMenu="matMenu" class="more-options-menu">
-          <button mat-menu-item (click)="trashNote(note)">
+          <button mat-menu-item (click)="trashNote(note); showNoteIcons(note, $event)">
             <mat-icon>delete</mat-icon>
             <span>Delete</span>
           </button>

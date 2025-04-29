@@ -12,11 +12,27 @@ export class EditNoteComponent {
   title: string;
   description: string;
   colour: string;
-  
-  colors: string[] = [
+
+  showColorPicker = false;
+
+  colours: string[] = [
     '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
     '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
   ];
+
+  toggleColorPicker(event: MouseEvent) 
+  {
+    event.stopPropagation();
+    this.showColorPicker = !this.showColorPicker;
+  }
+
+  selectColor(colour: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.colour = colour;
+    this.showColorPicker = false;
+    this.updateNote();  // Optional: Update note color in DB or backend
+  }
+  
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public note: any, 

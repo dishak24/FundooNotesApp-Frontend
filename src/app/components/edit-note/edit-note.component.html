@@ -19,10 +19,16 @@
     <div class="note-bottom-bar">
       <div class="note-icons">
         <mat-icon matTooltip="Background options">palette</mat-icon>
+            <!-- Color Picker -->
+            <div class="color-picker" *ngIf="note.showColorPicker">
+              <div *ngFor="let colour of colours" class="color-circle" [ngStyle]="{ 'background-color': colour }" (click)="selectColor(colour, $event)">
+              </div>
+            </div>
+
         <mat-icon matTooltip="Remind me">notifications_none</mat-icon>
         <mat-icon matTooltip="Collaborator">person_add</mat-icon>
         <mat-icon matTooltip="Add image">image</mat-icon>
-        <mat-icon matTooltip="Archive">archive</mat-icon>
+        <mat-icon matTooltip="Archive" >archive</mat-icon>
         <mat-icon matTooltip="More">more_vert</mat-icon>
       </div>
       <button mat-button class="close-btn" (click)="closeDialog()">Close</button>

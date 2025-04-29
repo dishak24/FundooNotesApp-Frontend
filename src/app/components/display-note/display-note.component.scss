@@ -1,33 +1,35 @@
 .notes-container {
   display: grid;
-  //grid-template-columns: repeat(auto-fill, minmax(220px, 8fr)); // Slightly tighter
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(4, 1fr); /* Exactly 4 columns */
+  gap: 16px;
   padding: 16px;
 }
+
+.notes-container {
+  overflow-y: auto; 
+}
+
+
 
 .note-card {
   position: relative;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  padding: 10px 14px; // Reduced padding
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.2s ease;
   word-wrap: break-word;
   break-inside: avoid;
-  min-height: 100px; // Reduced height
+  min-height: 150px; /* Uniform height */
+  transition: box-shadow 0.2s ease;
+}
 
-  &:hover {
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-  
-    .note-icons,
-    .pin-icon {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
+.note-card {
+  overflow: visible; /* Ensure the color picker isn't clipped */
+}
+.note-card:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 .note-header {
@@ -46,30 +48,35 @@
 .note-content {
   font-size: 14px;
   color: #333;
-  margin-bottom: 8px;
-  overflow: hidden;
-  max-height: 120px;
-  
-    font-size: 14px;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  flex-grow: 1;
+  margin-bottom: 12px;
+}
 
-
-  .note-icons {
-    visibility: hidden; // hide but still occupy space
-    opacity: 0;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: auto;
-    transition: opacity 0.2s ease;
-  }
+.note-icons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: start;
+}
 
 .note-icons mat-icon {
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   color: #5f6368;
+  transition: transform 0.2s ease;
+}
+
+.note-icons mat-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Pin icon visibility on hover */
+.note-card:hover .pin-icon {
+  visibility: visible;
+  opacity: 1;
 }
 
 .pin-icon {
@@ -79,14 +86,71 @@
   font-size: 20px;
   color: #5f6368;
   cursor: pointer;
-  display: none;
+  visibility: hidden; /* Hide pin icon by default */
+  opacity: 0; /* Make pin icon transparent by default */
+  //transition: opacity 0.2s ease, visibility 0s 0.2s; /* Smooth visibility transition */
 }
 
-.color-picker {
+.note-card {
+  position: relative;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
   display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  break-inside: avoid;
+  min-height: 150px;
+  transition: box-shadow 0.2s ease;
+}
+
+.note-card:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Default: hide icons */
+.note-icons {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 8px;
-  gap: 6px;
+  justify-content: start;
+  transition: opacity 0.2s ease;
+}
+
+/* Show icons on hover */
+.note-card:hover .note-icons {
+  visibility: visible;
+  opacity: 1;
+}
+
+.note-icons mat-icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #5f6368;
+  transition: transform 0.2s ease;
+}
+
+.note-icons mat-icon:hover {
+  transform: scale(1.1);
+}
+
+
+/* Color picker shows outside card */
+.color-picker {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  background: white;
+  padding: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  gap: 8px;
+  z-index: 1000;
 }
 
 .color-circle {
@@ -98,24 +162,7 @@
   cursor: pointer;
 }
 
-::ng-deep .more-options-menu {
-  padding: 0;
-  min-width: 180px;
-}
-
-::ng-deep .more-options-menu .mat-menu-item {
-  font-size: 10px;
-  padding: 6px 12px;
-  height: 36px;
-}
-
-::ng-deep .more-options-menu .mat-icon {
-  font-size: 18px;
-  margin-right: 10px;
-  color: #5f6368;
-}
-
-
+/* Responsive grid */
 @media (max-width: 1200px) {
   .notes-container {
     grid-template-columns: repeat(3, 1fr);
@@ -133,7 +180,3 @@
     grid-template-columns: 1fr;
   }
 }
-
-
-
-
