@@ -1,5 +1,6 @@
 
 <div class="notes-container">
+  <div [ngClass]="isListView ? 'note-list' : 'note-grid'">
     <div *ngFor="let note of notes" (click)="openNoteForEdit(note)" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
       <div class="note-header">
 
@@ -22,7 +23,7 @@
        </div>
       
 
-        <mat-icon  *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event); showNoteIcons(note, $event)" matTooltip="Background options">palette</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event); showNoteIcons(note, $event)" matTooltip="Background options">palette</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Remind me">notifications_none</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note, $event); showNoteIcons(note, $event)">person_add</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Add image">image</mat-icon>
@@ -72,4 +73,5 @@
       </div>
     </div>
   </div>
+</div>
   

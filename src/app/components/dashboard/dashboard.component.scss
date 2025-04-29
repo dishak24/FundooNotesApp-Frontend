@@ -29,6 +29,67 @@
     }
   }
 
+  //---------------------------------------------------
+
+  @media (max-width: 768px) {
+    .header {
+      flex-wrap: wrap;
+      height: auto;
+      padding: 8px;
+  
+      .menu {
+        margin-right: 0.5rem;
+      }
+  
+      .app-icon {
+        width: 36px;
+        height: 36px;
+        margin-right: 0.5rem;
+      }
+  
+      .app-title {
+        font-size: 16px;
+        margin-right: auto;
+      }
+  
+      .keep-search {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+  
+      .search-bar {
+        width: 100%;
+      }
+  
+      .header-icons-one,
+      .header-icons-two {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin: 0.5rem 0;
+        flex-wrap: wrap;
+      }
+  
+      .header-icons-two {
+        justify-content: flex-end;
+        gap: 0.5rem;
+  
+        .icon {
+          width: 32px;
+          height: 32px;
+        }
+  
+        .account {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+  
+
+  //----------------------------------------------
+
   mat-icon {
     font-size: 24px;
     color: #5f6368;
@@ -115,6 +176,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .sidenav-container {
+    flex-direction: column;
+  }
+}
+
 /* === Search Bar === */
 .keep-search {
   display: flex;
@@ -147,7 +214,7 @@
 }
 @media (max-width: 768px) {
   .keep-search {
-    width: 100%;
+    width: 50%;
     margin: 0 1rem;
   }
 }
@@ -488,6 +555,14 @@ mat-sidenav-content {
     font-size: 14px;
     padding: 4px 10px;
   }
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
 }
 
 

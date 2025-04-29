@@ -1,8 +1,8 @@
 <!-- HEADER TOOLBAR -->
 <div>
   <mat-toolbar class="header">
-    <button mat-icon-button (click)="toggleSidenav()">
-      <mat-icon matTooltip="Main menu">menu</mat-icon>
+    <button mat-icon-button (click)="toggleSidenav()" matTooltip="Main menu">
+      <mat-icon >menu</mat-icon>
     </button>  
 
     <img src="assets/Images/keepLogo.png" alt="Fundoo Logo" width="40">
@@ -12,32 +12,42 @@
     <span class="spacer"></span>
 
     <div class="keep-search">
-      <button mat-icon-button class="search-icon">
-        <mat-icon matTooltip="Search">search</mat-icon>
+      <button mat-icon-button class="search-icon" matTooltip="Search">
+        <mat-icon>search</mat-icon>
       </button>
       <input matInput placeholder="Search" />
     </div>
 
     <div class="header-icons-one">
-      <button mat-icon-button>
-        <mat-icon matTooltip="Refresh">refresh</mat-icon>
+
+      <button mat-icon-button (click)="refreshPage()" [disabled]="isLoading" matTooltip="Refresh">
+        <ng-container *ngIf="!isLoading; else spinnerTemplate">
+          <mat-icon>refresh</mat-icon>
+        </ng-container>
+        <ng-template #spinnerTemplate>
+          <mat-spinner diameter="24" strokeWidth="3"></mat-spinner>
+        </ng-template>
       </button>
-      <button mat-icon-button>
-        <mat-icon matTooltip="List View">view_agenda</mat-icon>
+      
+      <button mat-icon-button (click)="toggleView()"  matTooltip="{{ isListView ? 'Grid View' : 'List View' }}">
+        <mat-icon>
+          {{ isListView ? 'grid_view' : 'view_agenda' }}
+        </mat-icon>
       </button>
-      <button mat-icon-button>
-        <mat-icon matTooltip="Settings">settings</mat-icon>
+
+      <button mat-icon-button matTooltip="Settings">
+        <mat-icon >settings</mat-icon>
       </button>
     </div>
 
-    <div class="header-icons-two">
+    <div class="header-icons-two" matTooltip="Google apps">
       <button mat-icon-button>
-        <mat-icon matTooltip="Google apps">apps</mat-icon>
+        <mat-icon >apps</mat-icon>
       </button>
 
       <!-- Account Circle Button -->
-      <button mat-icon-button [matMenuTriggerFor]="accountMenu">
-        <mat-icon matTooltip="Google account">account_circle</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="accountMenu" matTooltip="Google account">
+        <mat-icon >account_circle</mat-icon>
       </button>
     </div>
   </mat-toolbar>
@@ -52,6 +62,7 @@
 
   <div class="toolbar-line"></div>
 </div>
+
 
 <!-- main layout with sidenav and roiuter outlet -->
 <mat-sidenav-container class="sidenav-container">
@@ -92,6 +103,10 @@
 </mat-sidenav-container> -->
 
 <mat-sidenav-content>
-  <app-all-display-notes [showArchived]="showArchived" [showTrash]="showTrash"></app-all-display-notes>
+  <app-all-display-notes 
+  [showArchived]="showArchived" 
+  [showTrash]="showTrash"
+  [isListView]="isListView">
+</app-all-display-notes>
 </mat-sidenav-content>
 </mat-sidenav-container>

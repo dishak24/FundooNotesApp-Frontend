@@ -49,6 +49,8 @@ import { CollaboratorsComponent } from './components/collaborators/collaborators
 import { MatChipsModule } from '@angular/material/chips';
 import { NoteIconsComponent } from './components/note-icons/note-icons.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule(
   {
@@ -92,7 +94,8 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     MatSnackBarModule,
     MatTooltipModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressSpinnerModule
     
     
   ],

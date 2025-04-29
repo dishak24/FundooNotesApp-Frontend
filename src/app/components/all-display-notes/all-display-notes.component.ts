@@ -13,6 +13,8 @@ export class AllDisplayNotesComponent {
 
   @Input() showArchived: boolean = false; 
   @Input() showTrash: boolean = false;
+
+  @Input() isListView: boolean = false;
  
   onNoteAdded(newNote: any) 
   {

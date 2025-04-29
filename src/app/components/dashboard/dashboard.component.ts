@@ -16,7 +16,7 @@ export class DashboardComponent
   showArchived: boolean = false;//archive flag
   showTrash: boolean = false;//trash flag
 
-
+  isLoading = false;
   
   
   constructor(private router: Router) { }
@@ -75,6 +75,24 @@ export class DashboardComponent
   navigateToAddNote() 
   {
     this.router.navigate(['dashboard/add-note']);
+  }
+
+  refreshPage() 
+  {
+    this.isLoading = true;
+
+      // Wait a short time to show spinner then reload route
+    setTimeout(() => 
+    {
+        window.location.reload();
+    }, 1000);
+  }
+
+  isListView: boolean = false;
+
+  toggleView() 
+  {
+    this.isListView = !this.isListView;
   }
 
 }

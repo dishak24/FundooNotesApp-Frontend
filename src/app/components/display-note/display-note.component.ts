@@ -36,7 +36,8 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   // receive a value from its parent
   @Input() showArchived: boolean = false;  // Input property to determine whether to archived or non-archived notes
   @Input() showTrash: boolean = false; // Input property to determine whether to show trash notes
-
+  @Input() isListView: boolean = false;
+  
   @Output() editExistingNote = new EventEmitter<any>();
 
   
