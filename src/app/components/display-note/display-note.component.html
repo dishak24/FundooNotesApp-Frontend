@@ -10,8 +10,12 @@
 
       </div>
   
-      <div class="note-content">{{ note.description }}</div>
-
+      <div class="note-content">{{ note.description }}<br>
+        <div *ngIf="!note.isTrashed && note.remainder" class="reminder-chip">
+          <mat-icon class="reminder-icon">access_time</mat-icon>
+          <span class="reminder-text">{{ note.remainder | date: 'MMM d, h:mm a' }}</span>
+        </div>
+      </div>
       
   
       <div class="note-icons">
@@ -24,7 +28,7 @@
       
 
         <mat-icon *ngIf="!note.isTrashed" (click)="toggleColorPicker(note, $event); showNoteIcons(note, $event)" matTooltip="Background options">palette</mat-icon>
-        <mat-icon *ngIf="!note.isTrashed" matTooltip="Remind me">notifications_none</mat-icon>
+        <mat-icon *ngIf="!note.isTrashed" matTooltip="Remind me" (click)="openReminderDialog(note, $event)">notifications_none</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Collaborator" (click)="openCollaboratorsDialog(note, $event); showNoteIcons(note, $event)">person_add</mat-icon>
         <mat-icon *ngIf="!note.isTrashed" matTooltip="Add image">image</mat-icon>
       

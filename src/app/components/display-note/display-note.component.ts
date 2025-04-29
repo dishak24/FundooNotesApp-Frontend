@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NoteService } from 'src/app/services/note/note.service';
@@ -6,6 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditNoteComponent } from '../edit-note/edit-note.component';
 import { CollaboratorsComponent } from '../collaborators/collaborators.component';
+import { ReminderDialogComponent } from '../reminder-dialog/reminder-dialog.component';
 
 
 interface Note 
@@ -19,6 +20,7 @@ interface Note
   isTrashed: boolean; 
   collaborators?: string[];
   showIcons : boolean; //for each note
+  remainder?: Date | null;
 }
 
 @Component({
@@ -37,6 +39,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   @Input() showArchived: boolean = false;  // Input property to determine whether to archived or non-archived notes
   @Input() showTrash: boolean = false; // Input property to determine whether to show trash notes
   @Input() isListView: boolean = false;
+  @Input() showReminders: boolean = false;
   
   @Output() editExistingNote = new EventEmitter<any>();
 
@@ -78,20 +81,23 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       next: (result: any) => {
         this.notes = Array.isArray(result) ? result : result.data;
   
-        // Filter based on showTrash and showArchived
-        if (this.showTrash) 
-        {
-          this.notes = this.notes.filter((note: Note) => note.isTrashed);
-        } 
-        else if (this.showArchived) 
-        {
-          this.notes = this.notes.filter((note: Note) => note.isArchived && !note.isTrashed);
-        } 
-        else 
-        {
-          this.notes = this.notes.filter((note: Note) => !note.isArchived && !note.isTrashed);
-        }
-  
+        // Filter logic based on flags
+      if (this.showTrash) 
+      {
+        this.notes = this.notes.filter((note: Note) => note.isTrashed);
+      } 
+      else if (this.showArchived) 
+      {
+        this.notes = this.notes.filter((note: Note) => note.isArchived && !note.isTrashed);
+      } 
+      else if (this.showReminders) 
+      {
+        this.notes = this.notes.filter((note: Note) => note.remainder && !note.isTrashed);
+      } 
+      else 
+      {
+        this.notes = this.notes.filter((note: Note) => !note.isArchived && !note.isTrashed);
+      }
         console.log(this.notes);
       },
       error: (err) => {
@@ -103,6 +109,15 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     });
   }
    
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    // Close color picker if the clicked element is outside a note or palette
+    if (!target.closest('.note-card') && !target.closest('.color-picker')) {
+      this.notes.forEach(note => note.showColorPicker = false);
+    }
+  }
 
 
   toggleColorPicker(note: Note, event: MouseEvent)
@@ -326,6 +341,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   openNoteForEdit(note: any) {
     const dialogRef = this.dialog.open(EditNoteComponent, {
       data: note,
+      width: '570px'
       
     });
   
@@ -350,7 +366,8 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       {
         noteId: note.notesId,
         existingCollaborators: note.collaborators || []
-      }
+      },
+      width: '570px'
     });
   
     dialogRef.afterClosed().subscribe((updatedCollaborators: string[]) => 
@@ -362,6 +379,34 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     });
   }
   
+//Reminder box
+  openReminderDialog(note: Note, event: MouseEvent): void 
+  {
+    event.stopPropagation();
+  
+
+    const dialogRef = this.dialog.open(ReminderDialogComponent, 
+    {
+      data: { noteId: note.notesId },
+      width: '320px'
+    });
+  
+    dialogRef.afterClosed().subscribe((remainder: Date) => {
+      if (remainder) {
+        // Update the note's reminder property
+        note.remainder = remainder;
+  
+        // Optional: Update the reminder icon appearance or other UI details based on reminder
+        this.snackBar.open('Reminder set!', 'Close', { duration: 3000 });
+  
+        // Refresh notes or update the view
+        //this.getNotes(); // If necessary to re-fetch the notes from the server
+      }
+    });
+  }
+  
+  
+
   
 }
 

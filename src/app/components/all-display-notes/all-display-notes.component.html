@@ -1,7 +1,7 @@
 <!-- all-display-notes component -->
 
 <!-- Only show add-note when not viewing archived notes -->
-<app-add-note *ngIf="!showArchived && !showTrash" 
+<app-add-note *ngIf="!showArchived && !showTrash && !showReminders" 
 (noteAdded)="onNoteAdded($event)">
 </app-add-note>
 <!-- <app-display-note></app-display-note> -->
@@ -9,5 +9,6 @@
 <app-display-note 
 [showArchived]="showArchived" 
 [showTrash]="showTrash"
-[isListView]="isListView">
+[isListView]="isListView"
+[showReminders]="showReminders" >
 </app-display-note>

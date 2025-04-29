@@ -50,6 +50,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { NoteIconsComponent } from './components/note-icons/note-icons.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ReminderDialogComponent } from './components/reminder-dialog/reminder-dialog.component';
 
 
 @NgModule(
@@ -67,7 +68,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditNoteComponent,
     CollaboratorsComponent,
     NoteIconsComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    ReminderDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +97,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatTooltipModule,
     MatDialogModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    
     
     
   ],

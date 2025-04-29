@@ -119,4 +119,17 @@ export class NoteService
     return this.http.putApi(`/addColour/${noteId}`, payload, httpOption.headers);
   }
 
+  //add remainder
+  addReminder(noteId: any, payload: any)
+  {
+    let httpOption = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+  
+    return this.http.putApi(`/addReminder/${noteId}`, payload, httpOption.headers);
+  }
+
 }

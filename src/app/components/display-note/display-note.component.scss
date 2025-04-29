@@ -258,4 +258,26 @@
   }
 }
 
+.reminder-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f1f3f4;
+  border-radius: 16px;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #202124;
+  width: fit-content;
+}
+
+.reminder-icon {
+  font-size: 18px;
+  margin-right: 6px;
+  color: #5f6368;
+}
+
+.reminder-text {
+  white-space: nowrap;
+}
+
 

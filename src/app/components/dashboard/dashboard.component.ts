@@ -18,6 +18,7 @@ export class DashboardComponent
 
   isLoading = false;
   
+  showReminders: boolean = false;
   
   constructor(private router: Router) { }
   
@@ -45,29 +46,27 @@ export class DashboardComponent
   setActive(item: string) 
   {
     this.activeItem = item;
-    if (item === 'Archive') 
-    {
-      this.showArchived = true; // Show archived notes when Archive tab is clicked
+
+    if (item === 'Archive') {
+      this.showArchived = true;
+      this.showTrash = false;
+      this.showReminders = false;
       this.headerTitle = 'Archive';
+    } else if (item === 'Trash') {
+      this.showArchived = false;
+      this.showTrash = true;
+      this.showReminders = false;
+      this.headerTitle = 'Trash';
+    } else if (item === 'Reminders') {
+      this.showArchived = false;
       this.showTrash = false;
-    } 
-    else if (item === 'Notes') 
-    {
-      this.showArchived = false; // Show regular notes when Notes tab is clicked
+      this.showReminders = true;
+      this.headerTitle = 'Reminders';
+    } else {
+      this.showArchived = false;
+      this.showTrash = false;
+      this.showReminders = false;
       this.headerTitle = 'FunDoo';
-      this.showTrash = false;
-    }
-    else if (item === 'Trash') 
-    {
-        this.showArchived = false; 
-        this.headerTitle = 'Trash';
-        this.showTrash = true; // Show trash notes when Trash tab is clicked
-    }
-    else if (item === 'Reminders') 
-    {
-        this.showArchived = false;
-        this.headerTitle = 'Reminders';
-        this.showTrash = false;
     }
     
   }

@@ -15,6 +15,8 @@ export class AllDisplayNotesComponent {
   @Input() showTrash: boolean = false;
 
   @Input() isListView: boolean = false;
+
+  @Input() showReminders: boolean = false;
  
   onNoteAdded(newNote: any) 
   {
