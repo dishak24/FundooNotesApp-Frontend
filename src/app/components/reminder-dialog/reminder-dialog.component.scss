@@ -1,0 +1,54 @@
+:host {
+    display: block;
+    font-family: Roboto, sans-serif;
+  }
+  
+  mat-dialog-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #202124;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  
+  mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 0;
+    min-width: 300px;
+    max-width: 320px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  mat-label {
+    font-size: 14px;
+    color: #5f6368;
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+  }
+  
+  button[mat-button] {
+    font-weight: 500;
+    text-transform: none;
+    font-size: 14px;
+    padding: 0 12px;
+  }
+  
+  ::ng-deep .mat-dialog-container {
+    border-radius: 12px;
+    padding: 20px 24px 12px 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    background: #fff;
+    width: 320px;
+    max-width: 90vw;
+  }
+  

@@ -33,11 +33,11 @@ const routes: Routes = [
   },
   { path: 'archive', 
     component: ArchiveNotesComponent, 
-    data: { type: 'archive' } 
+     
   },
   { path: 'trash', 
     component: TrashNotesComponent, 
-    data: { type: 'trash' } 
+     
   },
   {
     path: 'editNote',

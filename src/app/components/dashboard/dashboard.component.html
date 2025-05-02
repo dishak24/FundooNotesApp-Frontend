@@ -15,8 +15,14 @@
       <button mat-icon-button class="search-icon" matTooltip="Search">
         <mat-icon>search</mat-icon>
       </button>
-      <input matInput placeholder="Search" />
+      <input
+        matInput
+        placeholder="Search"
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()"
+      />
     </div>
+    
 
     <div class="header-icons-one">
 
@@ -79,6 +85,15 @@
         <span *ngIf="isExpanded">Reminders</span>
       </mat-list-item>
 
+      
+        <mat-list-item 
+          *ngFor="let label of labels"
+          [ngClass]="{ 'active': activeItem === label.name }"
+          (click)="setActive(label.name)">
+          <mat-icon>label</mat-icon>
+          <span *ngIf="isExpanded">{{ label.name }}</span>
+        </mat-list-item>
+
       <mat-list-item [ngClass]="{ 'active': activeItem === 'Edit labels' }" (click)="setActive('Edit labels')">
         <mat-icon>edit</mat-icon>
         <span *ngIf="isExpanded">Edit labels</span>
@@ -107,7 +122,8 @@
   [showArchived]="showArchived" 
   [showTrash]="showTrash"
   [isListView]="isListView"
-  [showReminders]="showReminders" >
+  [showReminders]="showReminders"
+  [searchText]="searchText" >
 </app-all-display-notes>
 </mat-sidenav-content>
 </mat-sidenav-container>

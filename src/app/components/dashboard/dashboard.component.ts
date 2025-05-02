@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { EditLabelComponent } from '../edit-label/edit-label.component';
+import { MatDialog } from '@angular/material/dialog';
+import { LabelService } from 'src/app/services/label/label.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,8 +22,26 @@ export class DashboardComponent
   isLoading = false;
   
   showReminders: boolean = false;
+
+  labels: any[] = [];//for label
+  searchText: string = '';
+
+  @Output() searchTextChanged = new EventEmitter<string>();
+
+  onSearchChange() {
+    this.searchTextChanged.emit(this.searchText.trim());
+  }
+
+  handleSearch(searchValue: string) 
+  {
+    this.searchText = searchValue;
+  }
   
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router, 
+    private dialog: MatDialog, 
+    private labelService: LabelService
+  ) { this.getAllLabels(); }
   
   //to toggle the sidenav
   toggleSidenav() 
@@ -42,27 +63,46 @@ export class DashboardComponent
   //   this.activeItem = item;
   // }
 
-  // Set active tab and toggle archived notes display
+  // Set active tab 
   setActive(item: string) 
   {
     this.activeItem = item;
 
-    if (item === 'Archive') {
+    if (item === 'Archive') 
+    {
       this.showArchived = true;
       this.showTrash = false;
       this.showReminders = false;
       this.headerTitle = 'Archive';
-    } else if (item === 'Trash') {
+    } 
+    else if (item === 'Trash') 
+    {
       this.showArchived = false;
       this.showTrash = true;
       this.showReminders = false;
       this.headerTitle = 'Trash';
-    } else if (item === 'Reminders') {
+    } 
+    else if (item === 'Reminders') 
+    {
       this.showArchived = false;
       this.showTrash = false;
       this.showReminders = true;
       this.headerTitle = 'Reminders';
-    } else {
+    } 
+    else if (item === 'Edit labels') 
+    {
+      const dialogRef = this.dialog.open(EditLabelComponent, 
+      {
+        width: '400px'
+      });
+      dialogRef.afterClosed().subscribe(() => 
+      {
+        this.getAllLabels();  // Refresh labels after closing dialog
+      });
+      return;
+    }
+    else 
+    {
       this.showArchived = false;
       this.showTrash = false;
       this.showReminders = false;
@@ -79,8 +119,7 @@ export class DashboardComponent
   refreshPage() 
   {
     this.isLoading = true;
-
-      // Wait a short time to show spinner then reload route
+    //to show spinner
     setTimeout(() => 
     {
         window.location.reload();
@@ -92,6 +131,22 @@ export class DashboardComponent
   toggleView() 
   {
     this.isListView = !this.isListView;
+  }
+
+
+  getAllLabels() 
+  {
+    this.labelService.getAllLabels().subscribe(
+      (res: any) => {
+        this.labels = res.map((label: any) => ({
+          id: label.labelId,
+          name: label.labelName
+        }));
+      },
+      (err: any) => {
+        console.error('Error fetching labels:', err);
+      }
+    );
   }
 
 }

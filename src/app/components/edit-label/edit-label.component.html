@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Edit labels</h2>
+
+<mat-dialog-content>
+
+  <!-- Input for new label -->
+  <div class="label-input">
+    <mat-icon class="clickable" (click)="cancelNewLabel()">close</mat-icon>
+    <input matInput placeholder="Create new label" [(ngModel)]="newLabel" />
+    <mat-icon 
+      class="clickable" 
+      (click)="addLabel()" 
+      [ngClass]="{ disabled: !newLabel.trim() }">
+      check
+    </mat-icon>
+  </div>
+
+  <mat-divider class="my-2"></mat-divider>
+
+  <!-- Display existing labels -->
+  <div *ngIf="labels.length > 0; else noLabels">
+    <div *ngFor="let label of labels; let i = index" class="label-row">
+      <mat-icon>label</mat-icon>
+
+      <input
+        matInput
+        [(ngModel)]="label.name"
+        [readonly]="!label.editing"
+        [ngClass]="{ editing: label.editing }"
+      />
+
+      <mat-icon class="clickable" (click)="toggleEdit(i)">
+        {{ label.editing ? 'check' : 'edit' }}
+      </mat-icon>
+
+      <mat-icon class="clickable" (click)="deleteLabel(i)">delete</mat-icon>
+    </div>
+  </div>
+
+  <ng-template #noLabels>
+    
+  </ng-template>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Done</button>
+</mat-dialog-actions>

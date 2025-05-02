@@ -51,6 +51,7 @@ import { NoteIconsComponent } from './components/note-icons/note-icons.component
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReminderDialogComponent } from './components/reminder-dialog/reminder-dialog.component';
+import { EditLabelComponent } from './components/edit-label/edit-label.component';
 
 
 @NgModule(
@@ -69,7 +70,8 @@ import { ReminderDialogComponent } from './components/reminder-dialog/reminder-d
     CollaboratorsComponent,
     NoteIconsComponent,
     DeleteDialogComponent,
-    ReminderDialogComponent
+    ReminderDialogComponent,
+    EditLabelComponent
   ],
   imports: [
     BrowserModule,

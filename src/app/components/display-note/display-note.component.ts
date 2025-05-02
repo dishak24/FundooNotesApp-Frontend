@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NoteService } from 'src/app/services/note/note.service';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditNoteComponent } from '../edit-note/edit-note.component';
 import { CollaboratorsComponent } from '../collaborators/collaborators.component';
 import { ReminderDialogComponent } from '../reminder-dialog/reminder-dialog.component';
+import { LabelService } from 'src/app/services/label/label.service';
 
 
 interface Note 
@@ -19,8 +20,14 @@ interface Note
   isArchived: boolean;
   isTrashed: boolean; 
   collaborators?: string[];
-  showIcons : boolean; //for each note
+  showIcons?: boolean; //for each note
   remainder?: Date | null;
+
+  labels?: any[];
+  
+  showLabelBox?: boolean;
+  labelSearch?: string;
+  filteredLabels?: any[];
 }
 
 @Component({
@@ -31,20 +38,23 @@ interface Note
 export class DisplayNoteComponent implements OnInit, OnChanges
 {
   notes: Note[] = [];
-  trash: Note[] = []; // This will hold the trashed notes
+  trash: Note[] = []; // to hold the trashed notes
 
 
+  
 
   // receive a value from its parent
-  @Input() showArchived: boolean = false;  // Input property to determine whether to archived or non-archived notes
-  @Input() showTrash: boolean = false; // Input property to determine whether to show trash notes
+  @Input() showArchived: boolean = false;  
+  @Input() showTrash: boolean = false; 
   @Input() isListView: boolean = false;
   @Input() showReminders: boolean = false;
+  @Input() searchText: string = '';
   
-  @Output() editExistingNote = new EventEmitter<any>();
+ // @Output() editExistingNote = new EventEmitter<any>();
 
   
-  //notes: any[] = []; // your notes list
+  //allNotes: any[] = [];
+  filteredNotes: any[] = [];
 
   showNoteIcons(note: any, event: MouseEvent) {
     event.stopPropagation(); // prevent click bubbling
@@ -52,26 +62,48 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   }
 
 
-  colours: string[] = [
+  colours: string[] = 
+  [
     '#FFF9C4', '#FFE0B2', '#E1BEE7', '#B2EBF2', '#B3E5FC', '#F8BBD0',
     '#DCEDC8', '#EDE7F6', '#FFCDD2', '#FFF3E0', '#F5F5F5', '#E0F7FA'
   ];
 
-  constructor(private noteService: NoteService, 
+  labelsList: any[] = [];
+  newLabel: string = '';
+
+
+  constructor(private noteService: NoteService,
+    private labelService : LabelService ,
     private snackBar: MatSnackBar, 
     private router: Router, 
     private dialog: MatDialog // Inject MatDialog service
-    ) {}
+    ) {
+      //this.labelService.getAllLabels().subscribe(labels => this.labelsList = labels);
+    }
 
   ngOnInit() 
   {
     this.getNotes();
+    this.getAllLabels();
   }
 
-  ngOnChanges() 
+  // ngOnChanges() 
+  // {
+  //   // when changes happened, reload the notes
+  //   this.getNotes();
+  //   this.getAllLabels();
+  // }
+
+  ngOnChanges(changes: SimpleChanges) 
   {
-    // When showArchived changes, reload the notes
     this.getNotes();
+    this.getAllLabels();
+    if (changes['searchText']) 
+    {
+      
+      this.applySearchFilter();
+
+    }
   }
 
   
@@ -81,7 +113,17 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       next: (result: any) => {
         this.notes = Array.isArray(result) ? result : result.data;
   
-        // Filter logic based on flags
+      // Filter logic based on flags
+      // Apply search filter here
+      if (this.searchText) 
+      {
+        this.applySearchFilter(); // Filter notes if searchText exists
+      } 
+      else 
+      {
+        this.filteredNotes = [...this.notes]; // Show all notes if no search text
+      }
+
       if (this.showTrash) 
       {
         this.notes = this.notes.filter((note: Note) => note.isTrashed);
@@ -114,7 +156,8 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     const target = event.target as HTMLElement;
 
     // Close color picker if the clicked element is outside a note or palette
-    if (!target.closest('.note-card') && !target.closest('.color-picker')) {
+    if (!target.closest('.note-card') && !target.closest('.color-picker')) 
+    {
       this.notes.forEach(note => note.showColorPicker = false);
     }
   }
@@ -135,7 +178,8 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     const payload = { colour: colour }; 
 
     this.noteService.addColour(note.notesId, payload).subscribe({
-      next: (result) => {
+      next: (result) => 
+      {
         console.log('Color updated successfully:', result);
         this.snackBar.open('Note color updated!', 'Close', {
           duration: 3000,
@@ -143,9 +187,11 @@ export class DisplayNoteComponent implements OnInit, OnChanges
         });
         this.getNotes(); // Refresh the notes after updating color
       },
-      error: (err) => {
+      error: (err) => 
+      {
         console.error('Error updating color', err);
-        this.snackBar.open('Failed to update color', 'Close', {
+        this.snackBar.open('Failed to update color', 'Close', 
+        {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -201,8 +247,9 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   }
 
   //trash note
-  trashNote(notes: Note)
+  trashNote(notes: Note,event: MouseEvent)
   {
+    event.stopPropagation();
     console.log('Note ID:', notes.notesId);
     if (!notes.notesId) 
     {
@@ -405,8 +452,98 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     });
   }
   
+  //to remove reminder
+  removeReminder(note: Note, event: MouseEvent): void 
+  {
+    event.stopPropagation();
+  
+    const payload = 
+    { 
+      reminder: '' 
+    };
+
+    this.noteService.addReminder(note.notesId, payload).subscribe({
+      next: (res) => 
+      {
+        note.remainder = null;
+        this.snackBar.open('Reminder removed', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (err) => {
+        console.error('Failed to remove reminder', err);
+        this.snackBar.open('Failed to remove reminder', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
   
 
+  //get all notes api
+  getAllLabels() 
+  {
+    this.labelService.getAllLabels().subscribe(
+    {
+      next: (res: any) => 
+      {
+        this.labelsList = res.map((label: any) => (
+        {
+          id: label.labelId,
+          name: label.labelName,
+          editing: false
+        }));
+      },
+      error: (err: any) => 
+      {
+        console.error('Error fetching labels:', err);
+      }
+    });
+  }
+
+  assignLabel(note: Note, label: any) 
+  {
+    this.labelService.assignLabelToNote(note.notesId, label.id).subscribe({
+      next: (result:any) => 
+      {
+        // Add the label to the note's list of labels locally
+        if (!note.labels) 
+        {
+          note.labels = [];
+        }
+        note.labels.push(label);
+  
+        this.snackBar.open(`Label "${label.name}" added to the note!`, 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (err:any) => {
+        this.snackBar.open('Failed to assign label to note.', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+  
+  
+  applySearchFilter() 
+  {
+    const search = this.searchText?.toLowerCase() || '';
+    if (!search) 
+    {
+      this.filteredNotes = this.notes;
+    } else 
+    {
+      this.filteredNotes = this.notes.filter(note =>
+        (note.title && note.title.toLowerCase().includes(search)) ||
+        (note.description && note.description.toLowerCase().includes(search))
+      );
+    }
+  }
   
 }
 

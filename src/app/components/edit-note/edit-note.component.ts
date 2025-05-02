@@ -8,7 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './edit-note.component.html',
   styleUrls: ['./edit-note.component.scss']
 })
-export class EditNoteComponent {
+export class EditNoteComponent 
+{
   title: string;
   description: string;
   colour: string;
@@ -55,11 +56,13 @@ export class EditNoteComponent {
     };
 
     this.noteService.updateNote(this.note.notesId, updatedNote).subscribe({
-      next: (result: any) => {
+      next: (result: any) => 
+      {
         this.snackBar.open('Note updated successfully', 'Close', { duration: 3000 });
         this.dialogRef.close(updatedNote); // Send updated note back
       },
-      error: (err: any) => {
+      error: (err: any) => 
+      {
         this.snackBar.open('Failed to update note', 'Close', { duration: 3000 });
       }
     });

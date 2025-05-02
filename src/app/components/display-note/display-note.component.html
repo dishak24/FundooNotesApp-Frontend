@@ -8,15 +8,27 @@
 
         <mat-icon *ngIf="!note.isTrashed" class="pin-icon" matTooltip="Pin note">push_pin</mat-icon>
 
+        <!-- Assigned Labels (Optional UI) -->
+
+  <!-- <mat-chip-list *ngIf="note.labels?.length > 0">
+    <mat-chip *ngFor="let label of note.labels" color="primary" selected>
+      {{ label.name }}
+    </mat-chip>
+  </mat-chip-list> -->
+
       </div>
   
       <div class="note-content">{{ note.description }}<br>
         <div *ngIf="!note.isTrashed && note.remainder" class="reminder-chip">
           <mat-icon class="reminder-icon">access_time</mat-icon>
           <span class="reminder-text">{{ note.remainder | date: 'MMM d, h:mm a' }}</span>
+          <mat-icon class="remove-reminder-icon" (click)="removeReminder(note, $event)" matTooltip="Remove reminder">cancel</mat-icon>
         </div>
       </div>
       
+      <!--  -->
+      
+      <!--  -->
   
       <div class="note-icons">
 
@@ -41,30 +53,38 @@
         
         <mat-icon [matMenuTriggerFor]="noteMenu" *ngIf="!note.isTrashed" matTooltip="More" (click)="$event.stopPropagation(); showNoteIcons(note, $event)">more_vert</mat-icon>
                 <mat-menu #noteMenu="matMenu" class="more-options-menu">
-          <button mat-menu-item (click)="trashNote(note); showNoteIcons(note, $event)">
+          <button mat-menu-item (click)="trashNote(note,  $event); showNoteIcons(note, $event)">
             <mat-icon>delete</mat-icon>
             <span>Delete</span>
           </button>
 
-          <button mat-menu-item>
-            <mat-icon>content_copy</mat-icon>
-            <span>Make a copy</span>
-          </button>
+          <button mat-menu-item [matMenuTriggerFor]="labelMenu" (click)="$event.stopPropagation()">
+  <mat-icon>label</mat-icon>
+  <span>Add label</span>
+</button>
 
-          <button mat-menu-item>
-            <mat-icon>palette</mat-icon>
-            <span>Change label</span>
-          </button>
+<!-- This should go right below it -->
+<mat-menu #labelMenu="matMenu">
+  <button mat-menu-item *ngFor="let label of labelsList" (click)="assignLabel(note, label)">
+    {{ label.name }}
+  </button>
+  <p *ngIf="labelsList.length === 0" style="padding: 0 16px; color: grey;">No labels available</p>
+</mat-menu>
+          
 
-          <button mat-menu-item>
-            <mat-icon>add_alert</mat-icon>
-            <span>Add reminder</span>
-          </button>
+              <!-- assign label -->
+                  <!-- <mat-menu #labelMenu="matMenu">
+                    <mat-checkbox *ngFor="let label of labelsList" 
+                                  [(ngModel)]="label.checked"
+                                  (change)="onLabelToggle(label)">
+                      {{ label.name }}
+                    </mat-checkbox>
+                  </mat-menu> -->
 
-          <button mat-menu-item>
-            <mat-icon>check_box</mat-icon>
-            <span>Show checkboxes</span>
-          </button>
+<!-- <button mat-icon-button [matMenuTriggerFor]="labelMenu">
+  <mat-icon>label</mat-icon>
+</button> -->
+
         </mat-menu>
 
         
@@ -75,6 +95,26 @@
         <div *ngFor="let colour of colours" class="color-circle" [ngStyle]="{ 'background-color': colour }" (click)="selectColor(note, colour, $event)">
         </div>
       </div>
+
+      <!-- Label Dropdown -->
+            <!-- <div class="label-dropdown" *ngIf="note.showLabelBox">
+              <h4>Label note</h4>
+              <input type="text" [(ngModel)]="note.labelSearch" (input)="filterLabels(note)" placeholder="Enter label name" />
+
+              <div *ngFor="let label of note.filteredLabels">
+                <mat-checkbox
+                  [(ngModel)]="label.selected"
+                  (change)="onLabelToggle(label, note)">
+                  {{ label.name }}
+                </mat-checkbox>
+              </div>
+
+              <div *ngIf="note.labelSearch && !note.filteredLabels.length">
+                <button mat-button color="primary" (click)="createAndAddLabel(note)">Create "{{ note.labelSearch }}"</button>
+              </div>
+            </div> -->
+
+
     </div>
   </div>
 </div>
