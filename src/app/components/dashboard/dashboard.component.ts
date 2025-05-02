@@ -28,7 +28,8 @@ export class DashboardComponent
 
   @Output() searchTextChanged = new EventEmitter<string>();
 
-  onSearchChange() {
+  onSearchChange() 
+  {
     this.searchTextChanged.emit(this.searchText.trim());
   }
 

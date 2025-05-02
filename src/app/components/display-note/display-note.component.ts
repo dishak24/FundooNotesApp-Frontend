@@ -8,7 +8,7 @@ import { EditNoteComponent } from '../edit-note/edit-note.component';
 import { CollaboratorsComponent } from '../collaborators/collaborators.component';
 import { ReminderDialogComponent } from '../reminder-dialog/reminder-dialog.component';
 import { LabelService } from 'src/app/services/label/label.service';
-
+import { MatChipsModule } from '@angular/material/chips';
 
 interface Note 
 {
@@ -23,7 +23,7 @@ interface Note
   showIcons?: boolean; //for each note
   remainder?: Date | null;
 
-  labels?: any[];
+  noteLabels?: any[];
   
   showLabelBox?: boolean;
   labelSearch?: string;
@@ -52,11 +52,10 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   
  // @Output() editExistingNote = new EventEmitter<any>();
 
-  
-  //allNotes: any[] = [];
   filteredNotes: any[] = [];
 
-  showNoteIcons(note: any, event: MouseEvent) {
+  showNoteIcons(note: any, event: MouseEvent) 
+  {
     event.stopPropagation(); // prevent click bubbling
     note.showIcons = true;
   }
@@ -84,7 +83,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   ngOnInit() 
   {
     this.getNotes();
-    this.getAllLabels();
+    //this.getAllLabels();
   }
 
   // ngOnChanges() 
@@ -112,6 +111,8 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     this.noteService.getAllNotes().subscribe({
       next: (result: any) => {
         this.notes = Array.isArray(result) ? result : result.data;
+
+        console.log("Notes with labels:", result);
   
       // Filter logic based on flags
       // Apply search filter here
@@ -141,6 +142,16 @@ export class DisplayNoteComponent implements OnInit, OnChanges
         this.notes = this.notes.filter((note: Note) => !note.isArchived && !note.isTrashed);
       }
         console.log(this.notes);
+        
+        this.notes.forEach((note: any) => 
+        {
+          note.labels = (note.noteLabels || [])
+            .map((labelMapping: any) => labelMapping?.label?.labelName)
+            .filter((labelName: string | undefined) => !!labelName);
+
+
+        });
+
       },
       error: (err) => {
         this.snackBar.open('Getting all notes failed !!!!', 'Close', {
@@ -509,11 +520,11 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       next: (result:any) => 
       {
         // Add the label to the note's list of labels locally
-        if (!note.labels) 
+        if (!note.noteLabels) 
         {
-          note.labels = [];
+          note.noteLabels = [];
         }
-        note.labels.push(label);
+        note.noteLabels.push(label);
   
         this.snackBar.open(`Label "${label.name}" added to the note!`, 'Close', {
           duration: 3000,
@@ -533,16 +544,18 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   applySearchFilter() 
   {
     const search = this.searchText?.toLowerCase() || '';
-    if (!search) 
-    {
-      this.filteredNotes = this.notes;
-    } else 
+    if (search) 
     {
       this.filteredNotes = this.notes.filter(note =>
         (note.title && note.title.toLowerCase().includes(search)) ||
         (note.description && note.description.toLowerCase().includes(search))
       );
     }
+  }
+
+  removeLabel(note: Note, label: any) 
+  {
+    //note.labels = note..filter(l => l.labelId !== label.labelId);
   }
   
 }

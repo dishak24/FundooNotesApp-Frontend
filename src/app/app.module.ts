@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon'; 
+//import { MatIconModule } from '@angular/material/icon'; 
 
 import { MatCardModule } from '@angular/material/card';
 
@@ -46,13 +46,16 @@ import { EditNoteComponent } from './components/edit-note/edit-note.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
-import { MatChipsModule } from '@angular/material/chips';
+//import { MatChipsModule } from '@angular/material/chips';
 import { NoteIconsComponent } from './components/note-icons/note-icons.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReminderDialogComponent } from './components/reminder-dialog/reminder-dialog.component';
 import { EditLabelComponent } from './components/edit-label/edit-label.component';
 
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon'; // If you're using icons in chips
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule(
   {
@@ -100,6 +103,7 @@ import { EditLabelComponent } from './components/edit-label/edit-label.component
     MatDialogModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    MatChipsModule
     
     
     

@@ -306,6 +306,37 @@
   margin-bottom: 8px;
 }
 
+.custom-label-list {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.custom-label {
+  background-color: #e0e0e0;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.label-container {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.note-label {
+  background-color: #e0e0e0;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+
+
+
 
 
 

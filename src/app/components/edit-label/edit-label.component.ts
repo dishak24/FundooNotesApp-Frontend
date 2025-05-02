@@ -86,10 +86,11 @@ export class EditLabelComponent implements OnInit
     );
   }
 
-  toggleEdit(index: number) {
+  toggleEdit(index: number) 
+  {
     const label = this.labels[index];
-    if (label.editing) {
-      // Save updated label name
+    if (label.editing) 
+    {
       this.updateLabel(label);
     }
     label.editing = !label.editing;

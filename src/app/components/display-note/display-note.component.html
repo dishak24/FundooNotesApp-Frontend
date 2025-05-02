@@ -1,20 +1,13 @@
 
 <div class="notes-container">
   <div [ngClass]="isListView ? 'note-list' : 'note-grid'">
-    <div *ngFor="let note of notes" (click)="openNoteForEdit(note)" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
+    <div *ngFor="let note of searchText ? filteredNotes : notes" (click)="openNoteForEdit(note)" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
+      
       <div class="note-header">
 
         <div class="note-title">{{ note.title }}</div>
 
-        <mat-icon *ngIf="!note.isTrashed" class="pin-icon" matTooltip="Pin note">push_pin</mat-icon>
-
-        <!-- Assigned Labels (Optional UI) -->
-
-  <!-- <mat-chip-list *ngIf="note.labels?.length > 0">
-    <mat-chip *ngFor="let label of note.labels" color="primary" selected>
-      {{ label.name }}
-    </mat-chip>
-  </mat-chip-list> -->
+        <mat-icon *ngIf="!note.isTrashed" class="pin-icon" matTooltip="Pin note">push_pin</mat-icon>        
 
       </div>
   
@@ -24,6 +17,14 @@
           <span class="reminder-text">{{ note.remainder | date: 'MMM d, h:mm a' }}</span>
           <mat-icon class="remove-reminder-icon" (click)="removeReminder(note, $event)" matTooltip="Remove reminder">cancel</mat-icon>
         </div>
+
+        <div class="label-container" *ngIf="note.noteLabels?.length">
+          <mat-chip *ngFor="let label of note.noteLabels" class="label-chip">
+            {{ label.name }}
+          </mat-chip>
+        </div>
+        
+
       </div>
       
       <!--  -->
@@ -59,31 +60,17 @@
           </button>
 
           <button mat-menu-item [matMenuTriggerFor]="labelMenu" (click)="$event.stopPropagation()">
-  <mat-icon>label</mat-icon>
-  <span>Add label</span>
-</button>
+            <mat-icon>label</mat-icon>
+            <span>Add label</span>
+          </button>
 
-<!-- This should go right below it -->
-<mat-menu #labelMenu="matMenu">
-  <button mat-menu-item *ngFor="let label of labelsList" (click)="assignLabel(note, label)">
-    {{ label.name }}
-  </button>
-  <p *ngIf="labelsList.length === 0" style="padding: 0 16px; color: grey;">No labels available</p>
-</mat-menu>
+        <mat-menu #labelMenu="matMenu">
+          <button mat-menu-item *ngFor="let label of labelsList" (click)="assignLabel(note, label)">
+            {{ label.name }}
+          </button>
+          <p *ngIf="labelsList.length === 0" style="padding: 0 16px; color: grey;">No labels available</p>
+        </mat-menu>
           
-
-              <!-- assign label -->
-                  <!-- <mat-menu #labelMenu="matMenu">
-                    <mat-checkbox *ngFor="let label of labelsList" 
-                                  [(ngModel)]="label.checked"
-                                  (change)="onLabelToggle(label)">
-                      {{ label.name }}
-                    </mat-checkbox>
-                  </mat-menu> -->
-
-<!-- <button mat-icon-button [matMenuTriggerFor]="labelMenu">
-  <mat-icon>label</mat-icon>
-</button> -->
 
         </mat-menu>
 
@@ -95,25 +82,6 @@
         <div *ngFor="let colour of colours" class="color-circle" [ngStyle]="{ 'background-color': colour }" (click)="selectColor(note, colour, $event)">
         </div>
       </div>
-
-      <!-- Label Dropdown -->
-            <!-- <div class="label-dropdown" *ngIf="note.showLabelBox">
-              <h4>Label note</h4>
-              <input type="text" [(ngModel)]="note.labelSearch" (input)="filterLabels(note)" placeholder="Enter label name" />
-
-              <div *ngFor="let label of note.filteredLabels">
-                <mat-checkbox
-                  [(ngModel)]="label.selected"
-                  (change)="onLabelToggle(label, note)">
-                  {{ label.name }}
-                </mat-checkbox>
-              </div>
-
-              <div *ngIf="note.labelSearch && !note.filteredLabels.length">
-                <button mat-button color="primary" (click)="createAndAddLabel(note)">Create "{{ note.labelSearch }}"</button>
-              </div>
-            </div> -->
-
 
     </div>
   </div>
