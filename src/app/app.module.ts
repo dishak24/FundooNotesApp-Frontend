@@ -47,14 +47,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
 
 //import { MatChipsModule } from '@angular/material/chips';
-import { NoteIconsComponent } from './components/note-icons/note-icons.component';
+//import { NoteIconsComponent } from './components/note-icons/note-icons.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReminderDialogComponent } from './components/reminder-dialog/reminder-dialog.component';
 import { EditLabelComponent } from './components/edit-label/edit-label.component';
 
 import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon'; // If you're using icons in chips
+import { MatIconModule } from '@angular/material/icon';
+import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component'; // If you're using icons in chips
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule(
@@ -71,10 +72,10 @@ import { MatIconModule } from '@angular/material/icon'; // If you're using icons
     TrashNotesComponent,
     EditNoteComponent,
     CollaboratorsComponent,
-    NoteIconsComponent,
     DeleteDialogComponent,
     ReminderDialogComponent,
-    EditLabelComponent
+    EditLabelComponent,
+    LogoutDialogComponent
   ],
   imports: [
     BrowserModule,

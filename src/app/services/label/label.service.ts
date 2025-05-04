@@ -71,7 +71,29 @@ export class LabelService {
 
 
   // Assign Label to a Note
-  assignLabelToNote(noteId: number, labelId: number) {
+  assignLabelToNote(noteId: number, labelName: string) {
+    const payload = {
+      noteId: noteId,
+      labelName: labelName
+    };
+  
+    console.log("Payload sent to backend:", payload); // Add this line
+  
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+  
+    return this.http.postApi(`/assignLabel`, payload, httpOptions.headers);
+  }
+  
+
+  //removeLableFromNote
+  // Assign Label to a Note
+  removeLabelFromNote(noteId: number, labelId: number) 
+  {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.token}`,
@@ -79,13 +101,14 @@ export class LabelService {
       })
     };
 
-    const payload = 
-    {
-      noteId: noteId,
-      labelId: labelId
-    };
+    // const payload = 
+    // {
+    //   noteId: noteId,
+    //   labelId: labelId
+    // };
 
-    return this.http.postApi(`/assignLabel`, payload, httpOptions.headers);
+    return this.http.deleteApi(`/removeLabelFromNote/${noteId}/${labelId}`,  httpOptions.headers);
   }
+
 
 }

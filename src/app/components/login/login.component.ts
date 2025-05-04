@@ -21,16 +21,68 @@ export class LoginComponent {
   ) 
   {
     this.login = this.fb.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      email: ['', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/) // Basic email regex
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+        // At least 8 chars, 1 uppercase, 1 lowercase, 1 digit, 1 special character
+      ]]
     });
+    
   }
 
   onSubmit() 
   {
+
+    if (this.login.invalid) {
+      const emailControl = this.login.get('email');
+      const passwordControl = this.login.get('password');
+  
+      // Show specific snackbar message based on what’s wrong
+      if (emailControl?.hasError('required')) 
+      {
+        this.snackBar.open('Email is required.', 'Close', 
+        {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      } 
+      else if (emailControl?.hasError('pattern')) 
+      {
+        this.snackBar.open('Enter a valid email address.', 'Close', 
+        {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      } 
+      else if (passwordControl?.hasError('required')) 
+      {
+        this.snackBar.open('Password is required.', 'Close', 
+        {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      } 
+      else if (passwordControl?.hasError('pattern')) 
+      {
+        this.snackBar.open(
+          'Password must be 8+ characters, with uppercase, lowercase, number, and special character.',
+          'Close',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar']
+          }
+        );
+      }
+      return;
+    }
     console.log("Login data:", this.login.value);
 
-    const payload = {
+    const payload = 
+    {
       email: this.login.value.email,
       password: this.login.value.password
     };

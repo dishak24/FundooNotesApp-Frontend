@@ -1,13 +1,20 @@
 
 <div class="notes-container">
   <div [ngClass]="isListView ? 'note-list' : 'note-grid'">
-    <div *ngFor="let note of searchText ? filteredNotes : notes" (click)="openNoteForEdit(note)" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
+    <div *ngFor="let note of searchText ? filteredNotes : sortedNotes" (click)="openNoteForEdit(note)" class="note-card" [ngStyle]="{ 'background-color': note.colour }">
       
       <div class="note-header">
 
         <div class="note-title">{{ note.title }}</div>
 
-        <mat-icon *ngIf="!note.isTrashed" class="pin-icon" matTooltip="Pin note">push_pin</mat-icon>        
+        <mat-icon 
+            *ngIf="!note.isTrashed"
+            class="pin-icon" 
+            [ngClass]="{ 'always-visible': note.isPinned }"
+            matTooltip="{{ note.isPinned ? 'Unpin note' : 'Pin note' }}"
+            (click)="togglePin(note, $event)">
+            {{ note.isPinned ? 'push_pin' : 'push_pin' }}
+        </mat-icon>
 
       </div>
   
@@ -15,13 +22,17 @@
         <div *ngIf="!note.isTrashed && note.remainder" class="reminder-chip">
           <mat-icon class="reminder-icon">access_time</mat-icon>
           <span class="reminder-text">{{ note.remainder | date: 'MMM d, h:mm a' }}</span>
-          <mat-icon class="remove-reminder-icon" (click)="removeReminder(note, $event)" matTooltip="Remove reminder">cancel</mat-icon>
+          <mat-icon class="remove-reminder-icon" (click)="removeReminder(note, $event)" matTooltip="Remove reminder">close</mat-icon>
         </div>
 
         <div class="label-container" *ngIf="note.noteLabels?.length">
-          <mat-chip *ngFor="let label of note.noteLabels" class="label-chip">
-            {{ label.name }}
-          </mat-chip>
+          <ng-container *ngFor="let label of note.noteLabels">
+            <mat-chip *ngIf="label" class="label-chip">
+              {{ label.labelName }}
+              <!-- <pre>{{ note.noteLabels | json }}</pre> -->
+              <mat-icon class="remove-reminder-icon" (click)="removeLabelFromNote(note, label)" matTooltip="Remove Label">close</mat-icon>
+            </mat-chip>
+          </ng-container>
         </div>
         
 
@@ -36,7 +47,7 @@
       <!-- Show only the untrash and permanent delete icons if note is in trash -->
        <div>
         <mat-icon *ngIf="note.isTrashed" (click)="unTrashNote(note, $event)" matTooltip="Restore" >restore</mat-icon>
-        <mat-icon *ngIf="note.isTrashed" (click)="deletePermanent(note, $event)" matTooltip="Delete forever">delete_forever</mat-icon>
+        <mat-icon *ngIf="note.isTrashed" (click)="openDeleteDialog(note, $event);" matTooltip="Delete forever">delete_forever</mat-icon>
        </div>
       
 

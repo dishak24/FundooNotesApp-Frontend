@@ -49,19 +49,6 @@
 }
 
 
-// .notes-container {
-//   display: grid;
-//   grid-template-columns: repeat(4, 1fr); /* Exactly 4 columns */
-//   gap: 16px;
-//   padding: 16px;
-// }
-
-// .notes-container {
-//   overflow-y: auto; 
-// }
-
-
-
 .note-card 
 {
   position: relative;
@@ -141,18 +128,33 @@
   opacity: 1;
 }
 
-.pin-icon 
-{
+/* Base style for pin icon */
+.pin-icon {
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
   position: absolute;
   top: 8px;
   right: 8px;
-  font-size: 20px;
-  color: #5f6368;
-  cursor: pointer;
-  visibility: hidden; /* Hide pin icon by default */
-  opacity: 0; /* Make pin icon transparent by default */
-  //transition: opacity 0.2s ease, visibility 0s 0.2s; /* Smooth visibility transition */
 }
+
+.pin-icon {
+  font-size: 20px;
+  width: 24px;
+  height: 24px;
+}
+
+
+/* Show on hover */
+.note-card:hover .pin-icon {
+  opacity: 1;
+}
+
+/* Always visible if pinned */
+.pin-icon.always-visible {
+  opacity: 1 !important;
+}
+
 
 .note-card 
 {
@@ -333,6 +335,9 @@
   border-radius: 12px;
   font-size: 12px;
 }
+
+
+
 
 
 

@@ -24,6 +24,9 @@ export class AllDisplayNotesComponent implements OnChanges
   allNotes: any[] = [];
   filteredNotes: any[] = [];
 
+  @Input() labelName: string = '';
+
+
   ngOnChanges(changes: SimpleChanges)
   {
     if (changes['searchText']) 

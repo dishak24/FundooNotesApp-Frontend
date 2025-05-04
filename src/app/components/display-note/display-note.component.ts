@@ -9,6 +9,7 @@ import { CollaboratorsComponent } from '../collaborators/collaborators.component
 import { ReminderDialogComponent } from '../reminder-dialog/reminder-dialog.component';
 import { LabelService } from 'src/app/services/label/label.service';
 import { MatChipsModule } from '@angular/material/chips';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 interface Note 
 {
@@ -22,10 +23,11 @@ interface Note
   collaborators?: string[];
   showIcons?: boolean; //for each note
   remainder?: Date | null;
+  isPinned?: boolean;
 
   noteLabels?: any[];
   
-  showLabelBox?: boolean;
+  //showLabelBox?: boolean;
   labelSearch?: string;
   filteredLabels?: any[];
 }
@@ -76,22 +78,24 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     private snackBar: MatSnackBar, 
     private router: Router, 
     private dialog: MatDialog // Inject MatDialog service
-    ) {
-      //this.labelService.getAllLabels().subscribe(labels => this.labelsList = labels);
-    }
-
+    ) {}
+      
   ngOnInit() 
   {
     this.getNotes();
+    
     //this.getAllLabels();
+    // this.filterNotes();
   }
 
-  // ngOnChanges() 
-  // {
-  //   // when changes happened, reload the notes
-  //   this.getNotes();
-  //   this.getAllLabels();
+  // getLabelName(labelId: number): string {
+  //   // this.labelService.getAllLabels().subscribe((response: any) => {
+  //   //   this.labelsList = response.data;
+  //   // });
+  //   const label = this.labelsList.find(l => l.labelId === labelId);
+  //   return label ? label.name : '';
   // }
+
 
   ngOnChanges(changes: SimpleChanges) 
   {
@@ -105,53 +109,60 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     }
   }
 
+  @Input() labelName: string = '';
+
+  // pinnedNotes: Note[] = [];
+  // otherNotes: Note[] = [];
+
+  //sorting notes 
+  get sortedNotes() 
+  {
+    return [...this.notes].sort((a, b) => (b.isPinned ? 1 : 0) - (a.isPinned ? 1 : 0));
+  }
   
+
   getNotes() 
   {
-    this.noteService.getAllNotes().subscribe({
-      next: (result: any) => {
+    this.noteService.getAllNotes().subscribe(
+    {
+      next: (result: any) => 
+      {
         this.notes = Array.isArray(result) ? result : result.data;
 
-        console.log("Notes with labels:", result);
-  
-      // Filter logic based on flags
-      // Apply search filter here
-      if (this.searchText) 
-      {
-        this.applySearchFilter(); // Filter notes if searchText exists
-      } 
-      else 
-      {
-        this.filteredNotes = [...this.notes]; // Show all notes if no search text
-      }
-
-      if (this.showTrash) 
-      {
-        this.notes = this.notes.filter((note: Note) => note.isTrashed);
-      } 
-      else if (this.showArchived) 
-      {
-        this.notes = this.notes.filter((note: Note) => note.isArchived && !note.isTrashed);
-      } 
-      else if (this.showReminders) 
-      {
-        this.notes = this.notes.filter((note: Note) => note.remainder && !note.isTrashed);
-      } 
-      else 
-      {
-        this.notes = this.notes.filter((note: Note) => !note.isArchived && !note.isTrashed);
-      }
-        console.log(this.notes);
-        
-        this.notes.forEach((note: any) => 
+        // Filter based on context
+        if (this.searchText) 
         {
-          note.labels = (note.noteLabels || [])
-            .map((labelMapping: any) => labelMapping?.label?.labelName)
-            .filter((labelName: string | undefined) => !!labelName);
+          this.applySearchFilter();
+        } 
+        else 
+        {
+          this.filteredNotes = [...this.notes];
+        }
 
-
-        });
-
+        //filters
+        if (this.showTrash) 
+        {
+          this.notes = this.notes.filter(note => note.isTrashed);
+        } 
+        else if (this.showArchived) 
+        {
+          this.notes = this.notes.filter(note => note.isArchived && !note.isTrashed);
+        } 
+        else if (this.showReminders) 
+        {
+          this.notes = this.notes.filter(note => note.remainder && !note.isTrashed);
+        } 
+        else if (this.labelName) 
+        {
+          this.notes = this.notes.filter(note =>
+            note.noteLabels?.some(label => label.name === this.labelName)
+          );
+          console.log("Label name: ", this.notes, this.labelName);
+        } 
+        else
+        {
+          this.notes = this.notes.filter(note => !note.isArchived && !note.isTrashed);
+        }
       },
       error: (err) => {
         this.snackBar.open('Getting all notes failed !!!!', 'Close', {
@@ -161,6 +172,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       }
     });
   }
+
    
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -379,8 +391,7 @@ export class DisplayNoteComponent implements OnInit, OnChanges
           panelClass: ['success-snackbar']
         });
 
-        this.getNotes();//to refresh the notes after archiving
-        // Update the notes list to reflect the archive status change
+        this.getNotes();
         //notes.isTrashed = true;
         
       },
@@ -453,12 +464,10 @@ export class DisplayNoteComponent implements OnInit, OnChanges
       if (remainder) {
         // Update the note's reminder property
         note.remainder = remainder;
-  
-        // Optional: Update the reminder icon appearance or other UI details based on reminder
         this.snackBar.open('Reminder set!', 'Close', { duration: 3000 });
   
         // Refresh notes or update the view
-        //this.getNotes(); // If necessary to re-fetch the notes from the server
+        //this.getNotes(); 
       }
     });
   }
@@ -514,28 +523,55 @@ export class DisplayNoteComponent implements OnInit, OnChanges
     });
   }
 
-  assignLabel(note: Note, label: any) 
-  {
-    this.labelService.assignLabelToNote(note.notesId, label.id).subscribe({
-      next: (result:any) => 
-      {
-        // Add the label to the note's list of labels locally
-        if (!note.noteLabels) 
-        {
-          note.noteLabels = [];
-        }
-        note.noteLabels.push(label);
+  assignLabel(note: Note, label: any): void {
+    const labelExists = note.noteLabels?.some((l) => l.name === label.name);
   
-        this.snackBar.open(`Label "${label.name}" added to the note!`, 'Close', {
+    if (labelExists) {
+      this.snackBar.open('Label already added to this note!', 'Close', {
+        duration: 3000,
+        panelClass: ['info-snackbar']
+      });
+      return;
+    }
+  
+    const payload = {
+      labelName: label.name,
+      noteId: note.notesId
+    };
+  
+    this.labelService.assignLabelToNote(note.notesId, label.name).subscribe({
+      next: (res) => {
+        this.snackBar.open('Label added to note!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
+        note.noteLabels = [...(note.noteLabels || []), label];
       },
-      error: (err:any) => {
-        this.snackBar.open('Failed to assign label to note.', 'Close', {
+      error: (err) => {
+        console.error('Error adding label to note:', err);
+        this.snackBar.open('Failed to add label', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
+      }
+    });
+    
+  }
+  
+  
+
+  //Remove label
+  removeLabelFromNote(note: Note, label: any) 
+  {
+    this.labelService.removeLabelFromNote(note.notesId, label.labelId).subscribe({
+      next: (res) => 
+      {
+        note.noteLabels = note.noteLabels?.filter(l => l.labelId !== label.labelId);
+        this.snackBar.open('Label removed', 'Close', { duration: 2000 });
+      },
+      error: (err) => 
+      {
+        this.snackBar.open('Failed to remove label', 'Close', { duration: 2000 });
       }
     });
   }
@@ -556,6 +592,53 @@ export class DisplayNoteComponent implements OnInit, OnChanges
   removeLabel(note: Note, label: any) 
   {
     //note.labels = note..filter(l => l.labelId !== label.labelId);
+  }
+
+  //pin - unpin note
+  togglePin(note: Note, event: MouseEvent)
+  {
+    event.stopPropagation();
+  
+    this.noteService.togglePin(note.notesId).subscribe(
+    {
+      next: (res: any) => 
+      {
+        // Toggle locally for UI update
+        note.isPinned = !note.isPinned;
+        this.snackBar.open(res.message || 'Pin status updated.', 'Close', 
+        {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+  
+        this.getNotes(); // Refresh view
+      },
+      error: (err: any) => 
+      {
+        this.snackBar.open('Failed to pin/unpin note.', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+  
+  //delete dialog
+  openDeleteDialog(note: any, event: MouseEvent)
+  {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(DeleteDialogComponent, 
+    {
+      width: '300px',
+      data: { item: 'note' } // customize as needed
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) 
+      {
+        this.deletePermanent(note, event) //delete logic
+      }
+    });
   }
   
 }

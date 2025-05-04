@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { EditLabelComponent } from '../edit-label/edit-label.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LabelService } from 'src/app/services/label/label.service';
+import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,7 @@ export class DashboardComponent
 
   labels: any[] = [];//for label
   searchText: string = '';
+
 
   @Output() searchTextChanged = new EventEmitter<string>();
 
@@ -51,6 +53,23 @@ export class DashboardComponent
   }
 
   // Logout function
+  openLogoutDialog() 
+  {
+    const dialogRef = this.dialog.open(LogoutDialogComponent, 
+    {
+      width: '300px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => 
+    {
+      if (result) 
+      {
+        this.logout();
+      }
+    });
+  }
+
+  // Logout function
   logout() 
   {
     //Remove token from local storage
@@ -60,12 +79,9 @@ export class DashboardComponent
     this.router.navigate(['/login']); 
   }
 
-  // setActive(item: string) {
-  //   this.activeItem = item;
-  // }
+  labelFilter: string = '';
 
-  // Set active tab 
-  setActive(item: string) 
+  setActive(item: string, labelName?: string) 
   {
     this.activeItem = item;
 
@@ -74,6 +90,7 @@ export class DashboardComponent
       this.showArchived = true;
       this.showTrash = false;
       this.showReminders = false;
+      this.labelFilter = '';
       this.headerTitle = 'Archive';
     } 
     else if (item === 'Trash') 
@@ -81,6 +98,7 @@ export class DashboardComponent
       this.showArchived = false;
       this.showTrash = true;
       this.showReminders = false;
+      this.labelFilter = '';
       this.headerTitle = 'Trash';
     } 
     else if (item === 'Reminders') 
@@ -88,34 +106,32 @@ export class DashboardComponent
       this.showArchived = false;
       this.showTrash = false;
       this.showReminders = true;
+      this.labelFilter = '';
       this.headerTitle = 'Reminders';
     } 
     else if (item === 'Edit labels') 
     {
-      const dialogRef = this.dialog.open(EditLabelComponent, 
-      {
+      const dialogRef = this.dialog.open(EditLabelComponent, {
         width: '400px'
       });
-      dialogRef.afterClosed().subscribe(() => 
-      {
-        this.getAllLabels();  // Refresh labels after closing dialog
-      });
+      dialogRef.afterClosed().subscribe(() => this.getAllLabels());
       return;
-    }
+    } 
     else 
     {
       this.showArchived = false;
       this.showTrash = false;
       this.showReminders = false;
-      this.headerTitle = 'FunDoo';
+      this.labelFilter = labelName || '';
+      this.headerTitle = labelName || 'FunDoo';
     }
-    
-  }
+}
 
-  navigateToAddNote() 
-  {
-    this.router.navigate(['dashboard/add-note']);
-  }
+
+  // navigateToAddNote() 
+  // {
+  //   this.router.navigate(['dashboard/add-note']);
+  // }
 
   refreshPage() 
   {

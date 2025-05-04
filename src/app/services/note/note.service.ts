@@ -132,4 +132,18 @@ export class NoteService
     return this.http.putApi(`/addReminder/${noteId}`, payload, httpOption.headers);
   }
 
+//pin note
+  togglePin(noteId: any)
+  {
+    let httpOption = {
+      headers: new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log('Headers:', httpOption);
+    return this.http.putApi(`/pin/${noteId}`,noteId, httpOption.headers);
+  }
+
 }

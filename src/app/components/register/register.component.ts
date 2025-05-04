@@ -53,20 +53,30 @@ export class RegisterComponent
                 private user: UserService,
                 private snackBar: MatSnackBar) 
     {
-      this.registerForm = this.fb.group(
-      {
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        //dob: ['', Validators.required],
+      this.registerForm = this.fb.group({
+        firstName: ['', [
+          Validators.required,
+          Validators.pattern(/^[A-Za-z]+$/) // only letters
+        ]],
+        lastName: ['', [
+          Validators.required,
+          Validators.pattern(/^[A-Za-z]+$/) // only letters
+        ]],
         day: ['', Validators.required],
         month: ['', Validators.required],
         year: ['', Validators.required],
         gender: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        email: ['', [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
+        ]],
+        password: ['', [
+          Validators.required,
+          Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/)
+        ]],
         confirmPassword: ['', Validators.required]
-      }, 
-      { validator: this.passwordMatchValidator });
+      }, { validator: this.passwordMatchValidator });
+      
     
     }
 
@@ -87,8 +97,62 @@ export class RegisterComponent
 
     onCreateAccount() 
     {
-      if (this.registerForm.valid) 
+      if (this.registerForm.invalid) 
       {
+        const controls = this.registerForm.controls;
+    
+        if (controls['firstName'].errors?.['required']) 
+        {
+          this.snackBar.open('First name is required.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['firstName'].errors?.['pattern']) 
+        {
+          this.snackBar.open('First name should contain only letters.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['lastName'].errors?.['required']) 
+        {
+          this.snackBar.open('Last name is required.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['lastName'].errors?.['pattern']) 
+        {
+          this.snackBar.open('Last name should contain only letters.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['email'].errors?.['required']) 
+        {
+          this.snackBar.open('Email is required.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['email'].errors?.['pattern']) 
+        {
+          this.snackBar.open('Enter a valid email address.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['password'].errors?.['required']) 
+        {
+          this.snackBar.open('Password is required.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['password'].errors?.['pattern']) 
+        {
+          this.snackBar.open('Password must be 8+ characters with uppercase, lowercase, number, and special character.', 'Close', { duration: 4000, panelClass: ['error-snackbar'] });
+        } 
+        else if (controls['confirmPassword'].errors?.['required']) 
+        {
+          this.snackBar.open('Please confirm your password.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (this.registerForm.errors?.['mismatch']) 
+        {
+          this.snackBar.open('Passwords do not match.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (!controls['day'].value || !controls['month'].value || !controls['year'].value) 
+        {
+          this.snackBar.open('Complete your date of birth.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        } 
+        else if (!controls['gender'].value) 
+        {
+          this.snackBar.open('Gender is required.', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+        }
+        return;
+      }
+      
+    
         const formData = this.registerForm.value;
         const dob = `${formData.day}-${formData.month}-${formData.year}`;
     
@@ -134,19 +198,23 @@ export class RegisterComponent
             // Navigate to the login page
             this.router.navigate(['login']);
           },
-          error: (err) => 
-          {
+          error: (err) => {
             console.error('Registering user Failed !!', err);
-            
-            // Show error Snackbar
-            this.snackBar.open('Registration failed !!!!!', 'Close', 
-            {
+          
+            let errorMsg = 'Registration failed. Please try again.';
+          
+            if (err?.error?.message?.includes('Email already exist')) {
+              errorMsg = 'This email is already registered. Please use another one.';
+            }
+          
+            this.snackBar.open(errorMsg, 'Close', {
               duration: 3000,
               panelClass: ['error-snackbar']
             });
           }
+          
         });
-      }
+      
     }
     
 

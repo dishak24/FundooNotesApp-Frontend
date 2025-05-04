@@ -60,7 +60,7 @@
 
   <!-- Account Menu -->
   <mat-menu #accountMenu="matMenu">
-    <button mat-menu-item (click)="logout()">
+    <button mat-menu-item (click)="openLogoutDialog()">
       <mat-icon>exit_to_app</mat-icon>
       Logout
     </button>
@@ -75,7 +75,7 @@
   <!-- side navigation -->
   <mat-sidenav #sidenav [mode]="'side'" [opened]="true" [class.collapsed]="!isExpanded" class="sidenav">
     <mat-nav-list>
-      <mat-list-item [ngClass]="{ 'active': activeItem === 'Notes' }" (click)="setActive('Notes'); navigateToAddNote()">
+      <mat-list-item [ngClass]="{ 'active': activeItem === 'Notes' }" (click)="setActive('Notes');">
         <mat-icon>lightbulb</mat-icon>
         <span *ngIf="isExpanded">Notes</span>
       </mat-list-item>
@@ -86,13 +86,14 @@
       </mat-list-item>
 
       
-        <mat-list-item 
-          *ngFor="let label of labels"
-          [ngClass]="{ 'active': activeItem === label.name }"
-          (click)="setActive(label.name)">
-          <mat-icon>label</mat-icon>
-          <span *ngIf="isExpanded">{{ label.name }}</span>
-        </mat-list-item>
+      <mat-list-item 
+      *ngFor="let label of labels"
+      [ngClass]="{ 'active': activeItem === label.name }"
+      (click)="setActive(label.name, label.name)">
+      <mat-icon>label</mat-icon>
+      <span *ngIf="isExpanded">{{ label.name }}</span>
+    </mat-list-item>
+    
 
       <mat-list-item [ngClass]="{ 'active': activeItem === 'Edit labels' }" (click)="setActive('Edit labels')">
         <mat-icon>edit</mat-icon>
@@ -119,11 +120,12 @@
 
 <mat-sidenav-content>
   <app-all-display-notes 
-  [showArchived]="showArchived" 
-  [showTrash]="showTrash"
-  [isListView]="isListView"
-  [showReminders]="showReminders"
-  [searchText]="searchText" >
-</app-all-display-notes>
+    [showArchived]="showArchived" 
+    [showTrash]="showTrash"
+    [isListView]="isListView"
+    [showReminders]="showReminders"
+    [searchText]="searchText"
+    [labelName]="labelFilter" >
+  </app-all-display-notes>
 </mat-sidenav-content>
-</mat-sidenav-container>
+
