@@ -1,0 +1,49 @@
+.label-input 
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+
+    input {
+        flex: 1;                  // Take remaining width
+        width: 100%;              // Ensure full width
+        max-width: 280px;         // Optional: control the max size
+        padding: 6px 8px;
+        font-size: 14px;
+      }
+  
+    mat-icon {
+      cursor: pointer;
+    }
+  
+    .disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+  
+  .label-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+  
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+    }
+  
+    input.editing {
+      background: white;
+    }
+  
+    mat-icon {
+      cursor: pointer;
+    }
+  }
+
+  
+  

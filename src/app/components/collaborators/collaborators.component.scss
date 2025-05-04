@@ -1,0 +1,98 @@
+/* Collaborator Chip */
+.collaborator-chip {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+mat-chip {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  font-weight: bold;
+  margin-right: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Remove Collaborator Button */
+.remove-collaborator {
+  background-color: transparent;
+  border: none;
+  color: black; /* Red color for remove action */
+  padding: 0;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.remove-collaborator mat-icon {
+  font-size: 18px;
+}
+
+/* Add Collaborator Input */
+mat-form-field.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-label {
+  font-size: 16px;
+  color: #5f6368;
+}
+
+input.mat-input-element {
+  font-size: 14px;
+}
+
+/* Done Button */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+button.mat-button {
+  background-color: #1a73e8;
+  color: white;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+button.mat-button:hover {
+  background-color: #1758c7;
+}
+
+/* For Dialog */
+mat-dialog-container {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  mat-dialog-title {
+    font-size: 20px;
+  }
+
+  button.mat-button {
+    font-size: 14px;
+  }
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-wrapper {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 24px !important;
+}

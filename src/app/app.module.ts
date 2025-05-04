@@ -4,13 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon'; 
+//import { MatIconModule } from '@angular/material/icon'; 
 
 import { MatCardModule } from '@angular/material/card';
 
@@ -22,19 +22,60 @@ import { MatSelectModule } from '@angular/material/select';
 //for api call
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
-@NgModule({
+import { MatMenuModule } from '@angular/material/menu';
+import { AddNoteComponent } from './components/add-note/add-note.component';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DisplayNoteComponent } from './components/display-note/display-note.component';
+import { AllDisplayNotesComponent } from './components/all-display-notes/all-display-notes.component';
+import { ArchiveNotesComponent } from './components/archive-notes/archive-notes.component';
+import { TrashNotesComponent } from './components/trash-notes/trash-notes.component';
+
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditNoteComponent } from './components/edit-note/edit-note.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { CollaboratorsComponent } from './components/collaborators/collaborators.component';
+
+//import { MatChipsModule } from '@angular/material/chips';
+//import { NoteIconsComponent } from './components/note-icons/note-icons.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ReminderDialogComponent } from './components/reminder-dialog/reminder-dialog.component';
+import { EditLabelComponent } from './components/edit-label/edit-label.component';
+
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component'; // If you're using icons in chips
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+@NgModule(
+  {
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    AddNoteComponent,
+    DisplayNoteComponent,
+    AllDisplayNotesComponent,
+    ArchiveNotesComponent,
+    TrashNotesComponent,
+    EditNoteComponent,
+    CollaboratorsComponent,
+    DeleteDialogComponent,
+    ReminderDialogComponent,
+    EditLabelComponent,
+    LogoutDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -56,8 +97,15 @@ import { MatListModule } from '@angular/material/list';
     FormsModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
-
+    MatListModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatProgressSpinnerModule,
+    MatChipsModule
+    
     
     
   ],
@@ -65,5 +113,11 @@ import { MatListModule } from '@angular/material/list';
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule 
+{
+  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) 
+  {
+    matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
+  }
+}
 

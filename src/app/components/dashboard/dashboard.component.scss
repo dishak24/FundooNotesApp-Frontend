@@ -1,0 +1,589 @@
+/* === Toolbar === */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 0rem;
+  height: 64px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+
+  .app-title {
+    margin-left: 1rem;
+    font-size: 20px;
+    font-weight: 500;
+    color: #5f6368;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .search-bar {
+    width: 720px;
+    margin-right: 2rem;
+    mat-icon {
+      color: #5f6368;
+    }
+    input {
+      font-size: 16px;
+    }
+  }
+
+  //---------------------------------------------------
+
+  @media (max-width: 768px) {
+    .header {
+      flex-wrap: wrap;
+      height: auto;
+      padding: 8px;
+  
+      .menu {
+        margin-right: 0.5rem;
+      }
+  
+      .app-icon {
+        width: 36px;
+        height: 36px;
+        margin-right: 0.5rem;
+      }
+  
+      .app-title {
+        font-size: 16px;
+        margin-right: auto;
+      }
+  
+      .keep-search {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+  
+      .search-bar {
+        width: 100%;
+      }
+  
+      .header-icons-one,
+      .header-icons-two {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin: 0.5rem 0;
+        flex-wrap: wrap;
+      }
+  
+      .header-icons-two {
+        justify-content: flex-end;
+        gap: 0.5rem;
+  
+        .icon {
+          width: 32px;
+          height: 32px;
+        }
+  
+        .account {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+  
+
+  //----------------------------------------------
+
+  mat-icon {
+    font-size: 24px;
+    color: #5f6368;
+    &:hover {
+      color: #202124;
+    }
+  }
+
+  button[mat-icon-button] {
+    margin-left: 8px;
+  }
+}
+
+/* === Sidenav Container === */
+.sidenav-container {
+  height: calc(100vh - 64px);
+  display: flex;
+}
+
+/* === Sidenav Styles === */
+.sidenav {
+  width: 240px;
+  background-color: white;
+  transition: width 0.3s ease;
+  
+  &.collapsed {
+    width: 70px;
+    mat-list-item {
+      justify-content: center;
+      mat-icon {
+        margin-right: 0;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+
+  mat-nav-list {
+    padding-top: 0.5rem;
+  }
+
+  mat-list-item {
+    padding: 12px 16px;
+    border-radius: 0 25px 25px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    mat-icon {
+      font-family: 'Material Icons Outlined';
+      font-size: 24px;
+      margin-right: 20px;
+      color: #5f6368;
+    }
+
+    span {
+      font-size: 16px;
+      color: #202124;
+    }
+
+    &.active {
+      background-color: #fef3c7;
+      mat-icon, span {
+        color: #000;
+      }
+    }
+  }
+}
+
+// /* === Hover Logic for Expanding Sidenav === */
+// .sidenav:hover {
+//   width: 240px;
+// }
+
+.sidenav .collapsed mat-list-item {
+  width: 70px;
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidenav-container {
+    flex-direction: column;
+  }
+}
+
+/* === Search Bar === */
+.keep-search {
+  display: flex;
+  align-items: center;
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  padding: 0px 18px;
+  width: 1000px;
+  max-width: 100%;
+  box-shadow: none;
+  transition: box-shadow 0.2s ease;
+  margin: 0 3rem;
+  .search-icon {
+    font-size: 20px;
+    color: black;
+    margin-right: 12px;
+  }
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 16px;
+    color: #202124;
+  }
+  &:focus-within {
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+  }
+}
+@media (max-width: 768px) {
+  .keep-search {
+    width: 50%;
+    margin: 0 1rem;
+  }
+}
+
+/* === Header Icon Groups === */
+.header-icons-one {
+  margin-right: 7cqh;
+  margin-left: auto;
+}
+
+.header-icons-two {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
+.toolbar-line {
+  height: 1px;
+  background-color: #e0e0e0;
+  width: 100%;
+}
+
+/* Remove default right-side vertical line from sidenav */
+.sidenav {
+  width: 240px;
+  background-color: white;
+  transition: width 0.3s ease;
+  border-right: none;
+  box-shadow: none;
+}
+
+//note-container
+.display-note {
+  width: 240px;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+//Style for the Logout Button 
+
+.mat-icon-button {
+  background-color: transparent; // Ensure the button has no background 
+  padding: 8px; // Add some padding 
+  border-radius: 50%; // Round the button for a clean look 
+  transition: background-color 0.3s ease; //Smooth transition effect
+}
+
+.mat-icon-button:hover 
+{
+  background-color: rgba(223, 69, 69, 0.1);  
+}
+
+// Style for Account Menu Dropdown 
+.mat-menu-panel {
+  border-radius: 8px; 
+  box-shadow: 0 4px 12px rgba(223, 69, 69, 0.1); 
+}
+
+/* Style for Menu Item */
+.mat-menu-item {
+  padding: 10px 16px; 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  transition: background-color 0.2s ease; 
+}
+
+//Hover Effect for Menu Item
+.mat-menu-item:hover {
+  background-color: rgba(223, 69, 69, 0.1); //Soft background color on hover
+}
+
+/* Icon Style */
+.mat-menu-item mat-icon {
+  font-size: 30px; 
+}
+
+
+.mat-menu-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(223, 69, 69, 0.1); /* Focus ring for better accessibility */
+}
+
+// Style for the notes
+.dashboard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notes-list {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.note-item {
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.note-card {
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: box-shadow 0.3s ease;
+    cursor: text;
+  }
+  
+  .note-card:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .note-card input,
+  .note-card textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: transparent;
+    resize: none;
+  }
+  
+  .note-card textarea {
+    margin-top: 8px;
+    min-height: 40px;
+  }
+  
+  .note-card p {
+    color: #5f6368;
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .actions mat-icon {
+    cursor: pointer;
+    font-size: 22px;
+    color: #5f6368;
+  }
+  
+  .close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    color: #1a73e8;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .close-btn:hover {
+    background-color: #f1f3f4;
+  }
+  
+  .color-picker {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 8px;
+  }
+  
+  .color-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+
+  .pin-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 20px;
+    color: #5f6368;
+    cursor: pointer;
+  }
+  
+  .note-card {
+    position: relative;
+  }
+
+  /* === Router Outlet and Take a Note Component === */
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.dashboard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+//note design
+.note-card {
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(60, 64, 67, 0.15);
+  padding: 12px 16px;
+  background-color: white;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 16px;
+  transition: box-shadow 0.3s ease;
+  cursor: text;
+}
+
+.note-card:hover {
+  box-shadow: 0 4px 12px rgba(60, 64, 67, 0.3);
+}
+
+.note-card input,
+.note-card textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  color: #202124;
+  resize: none;
+}
+
+.note-card input {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.note-card textarea {
+  margin-top: 8px;
+  min-height: 40px;
+  font-size: 16px;
+}
+
+.note-card p {
+  margin: 0;
+  font-size: 16px;
+  color: #5f6368;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.actions mat-icon,
+.actions button mat-icon {
+  font-size: 22px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.close-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #f1f3f4;
+}
+
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.color-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.pin-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .note-card {
+    width: 100%;
+    margin: 8px;
+    padding: 10px 12px;
+  }
+
+  .note-card input {
+    font-size: 16px;
+  }
+
+  .note-card textarea {
+    font-size: 14px;
+  }
+
+  .close-btn {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+
+/* Mobile responsiveness for note-taking form */
+@media (max-width: 768px) {
+  .note-card {
+    width: 90%;
+  }
+
+  .color-picker {
+    gap: 6px;
+  }
+
+  .actions mat-icon {
+    font-size: 20px;
+  }
+}
+
+
+
+  
+  
+
+

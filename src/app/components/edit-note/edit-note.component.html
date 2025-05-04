@@ -1,0 +1,38 @@
+<mat-dialog-content class="note-card" [ngStyle]="{ 'background-color': colour }">
+  <div >
+
+    <!-- Title and Pin Icon -->
+    <div class="note-header">
+      <div class="note-title">
+        <input [(ngModel)]="title" class="title-input" placeholder="Title" />
+      </div>
+      <mat-icon class="pin-icon" matTooltip="Pin Note">
+        {{ note.isPinned ? 'push_pin' : 'push_pin' }}
+      </mat-icon>
+    </div>
+    <br>
+    <!-- Description -->
+    <div class="note-content">
+      <textarea [(ngModel)]="description" placeholder="Take a note..." rows="5"></textarea>
+    </div>
+
+    <div class="note-bottom-bar">
+      <div class="note-icons">
+        <mat-icon matTooltip="Background options">palette</mat-icon>
+            <!-- Color Picker -->
+            <div class="color-picker" *ngIf="note.showColorPicker">
+              <div *ngFor="let colour of colours" class="color-circle" [ngStyle]="{ 'background-color': colour }" (click)="selectColor(colour, $event)">
+              </div>
+            </div>
+
+        <mat-icon matTooltip="Remind me">notifications_none</mat-icon>
+        <mat-icon matTooltip="Collaborator">person_add</mat-icon>
+        <mat-icon matTooltip="Add image">image</mat-icon>
+        <mat-icon matTooltip="Archive" >archive</mat-icon>
+        <mat-icon matTooltip="More">more_vert</mat-icon>
+      </div>
+      <button mat-button class="close-btn" (click)="closeDialog()">Close</button>
+    </div>
+
+  </div>
+</mat-dialog-content>
