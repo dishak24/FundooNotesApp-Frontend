@@ -30,7 +30,7 @@
             <mat-chip *ngIf="label" class="label-chip">
               {{ label.labelName }}
               <!-- <pre>{{ note.noteLabels | json }}</pre> -->
-              <mat-icon class="remove-reminder-icon" (click)="removeLabelFromNote(note, label)" matTooltip="Remove Label">close</mat-icon>
+              <mat-icon class="remove-reminder-icon" (click)="removeLabelFromNote(note, label); $event.stopPropagation()" matTooltip="Remove Label">close</mat-icon>
             </mat-chip>
           </ng-container>
         </div>

@@ -1,22 +1,18 @@
-<h2 mat-dialog-title>Collaborators</h2>
-<mat-dialog-content>
+<mat-dialog-content class="dialog-content">
   <!-- Display Collaborators -->
   <div *ngFor="let collaborator of collaborators" class="collaborator-chip">
     <mat-chip>
-        <mat-icon matTooltip="User">person_add</mat-icon>
-        {{ collaborator }}
-        <mat-icon  class="remove-collaborator" (click)="removeCollaborator(collaborator)">cancel</mat-icon>
-              
+      <!-- <mat-icon matTooltip="User">person_add</mat-icon> -->
+      {{ collaborator }}
+      <mat-icon class="remove-collaborator" (click)="removeCollaborator(collaborator)">close</mat-icon>
     </mat-chip>
   </div>
-<div></div>
-  <!-- Add Collaborator Input -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Add collaborator email</mat-label>
-    <input matInput [(ngModel)]="email" (keydown.enter)="addCollaborator()" />
-  </mat-form-field>
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="close()">Done</button>
-</mat-dialog-actions>
+  <!-- Add Collaborator Input -->
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Add collaborator email</mat-label>
+      <input matInput [(ngModel)]="email" (keydown.enter)="addCollaborator()" />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>

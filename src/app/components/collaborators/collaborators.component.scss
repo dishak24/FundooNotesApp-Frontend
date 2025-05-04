@@ -19,7 +19,7 @@ mat-chip {
 .remove-collaborator {
   background-color: transparent;
   border: none;
-  color: #e53935; /* Red color for remove action */
+  color: black; /* Red color for remove action */
   padding: 0;
   cursor: pointer;
   margin-left: 8px;
@@ -77,4 +77,22 @@ mat-dialog-container {
   button.mat-button {
     font-size: 14px;
   }
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-wrapper {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 24px !important;
 }
